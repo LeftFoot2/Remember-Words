@@ -40,12 +40,61 @@ class MainWindow(QMainWindow):
 
 
 
+        self.ui.search_bar.textEdited.connect(self.search)
+  
+      
+
         # Load the words in from the word bank to the screen
         self.load_words()
 
 
 
+    def search(self):
+        conn = sqlite3.connect('word_bank.db')
 
+        cur = conn.cursor()
+
+        cur.execute("SELECT * FROM words_list")
+        word_record = cur.fetchall()
+        
+        conn.commit()
+
+        conn.close()
+        # self.ui.word_bank.clear()
+        search_list =[]
+
+        self.ui.word_bank.addItems(self.alphabet)
+
+        for record in word_record:
+            search_list.append(record)
+
+        # print(search_list)
+        cat ="asfsa"
+
+        print(cat[1])
+        
+        print(len(self.ui.search_bar.text()))
+        # filtered_results = filter(self.filtering, search_list)
+        
+        # for x in filtered_results:
+        #     print(x)
+
+
+    # def filtering(self, list_index):
+        
+    #     word = str(list_index[0])
+    #     # if list_index[0][len(self.ui.search_bar.text())] == self.ui.search_bar.text():
+    #     if word[1] == "aaaaaaaaaa":
+    #         return True
+    #     else:
+    #         return False
+
+
+        
+
+        # for words in self.ui.word_bank:
+        #     if words[0] == self.ui.search_bar.text():
+        #         print('it workds')
 
 
     # Called if the 'add' button was pressed
@@ -183,7 +232,7 @@ class MainWindow(QMainWindow):
 
 
 def main():
-    app = QApplication([])
+    app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     app.exec()

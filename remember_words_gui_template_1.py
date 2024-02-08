@@ -29,12 +29,14 @@ class Ui_MainWindow(object):
         self.remove_word_button = QtWidgets.QPushButton(self.centralwidget)
         self.remove_word_button.setObjectName("remove_word_button")
         self.horizontalLayout.addWidget(self.remove_word_button)
+
         self.search_bar = QtWidgets.QLineEdit(self.centralwidget)
         self.search_bar.setText("")
         self.search_bar.setFrame(False)
         self.search_bar.setEchoMode(QtWidgets.QLineEdit.Normal)
         self.search_bar.setObjectName("search_bar")
         self.horizontalLayout.addWidget(self.search_bar)
+        
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.word_bank = QtWidgets.QListWidget(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
