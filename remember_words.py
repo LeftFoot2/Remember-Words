@@ -6,6 +6,15 @@ from remember_words_gui_template_1 import Ui_MainWindow
 from add_word_window_1 import Ui_add_word_window
 import sys
 import sqlite3
+import re
+
+
+
+#######
+# Note about the exe. I will need to clear it with companies to allow it to not be flagged as a virus.
+# This is annoying because it isn't but it seems like a common problem at least with using pyinstaller.
+######
+
 
 
 
@@ -60,41 +69,42 @@ class MainWindow(QMainWindow):
         conn.commit()
 
         conn.close()
-        # self.ui.word_bank.clear()
+        self.ui.word_bank.clear()
         search_list =[]
 
-        self.ui.word_bank.addItems(self.alphabet)
-
+        # self.ui.word_bank.addItems(self.alphabet)
+        # word_record = ('aaaaaaaaaaaaaaaaaaaaa',), ('bat',), ('cat',), ('rat',), ('sat',), ('mat',), ('darn',)
         for record in word_record:
-            search_list.append(record)
+            search_list.append(record[0]) # Gets the word out of the tuple and makes a list of strings
+        # print(search_list[1][2])
+        # print(search_list[which word in the list][what letter in the word])
 
-        # print(search_list)
-        cat ="asfsa"
+        if len(self.ui.search_bar.text()) == 0:
+            self.ui.word_bank.clear()
 
-        print(cat[1])
+            self.load_words()
+
         
-        print(len(self.ui.search_bar.text()))
-        # filtered_results = filter(self.filtering, search_list)
-        
+
+
+        # print(len(self.ui.search_bar.text()))
+
+        self.filtering(search_list)
+        # if search_list[0] == 'a':
+        # self.ui.word_bank.addItems()
         # for x in filtered_results:
         #     print(x)
 
 
-    # def filtering(self, list_index):
-        
-    #     word = str(list_index[0])
-    #     # if list_index[0][len(self.ui.search_bar.text())] == self.ui.search_bar.text():
-    #     if word[1] == "aaaaaaaaaa":
-    #         return True
-    #     else:
-    #         return False
+    def filtering(self, search_list):
 
+        for word in search_list:
+            if re.match(self.ui.search_bar.text(), word):
+                self.ui.word_bank.addItem(word)
 
-        
+        if len(self.ui.word_bank) == 0:
+            self.ui.word_bank.addItem("No results found.")
 
-        # for words in self.ui.word_bank:
-        #     if words[0] == self.ui.search_bar.text():
-        #         print('it workds')
 
 
     # Called if the 'add' button was pressed
