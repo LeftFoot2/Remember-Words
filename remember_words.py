@@ -9,32 +9,18 @@ import sqlite3
 import re
 from pynput import keyboard
 import threading
-# import keyboard
+import time
 
 
 
+input_string = ""
 
 #######
+
 # Note about the exe. I will need to clear it with companies to allow it to not be flagged as a virus.
+
 # This is annoying because it isn't but it seems like a common problem at least with using pyinstaller.
 ######
-
-# keyboard = k.keyboard.Controller()
-
-# class MyException(Exception): pass
-
-# def on_press(key):
-#     if key == keyboard.Key.esc:
-#         raise MyException(key)
-
-# # Collect events until released
-# with keyboard.Listener(
-#         on_press=on_press) as listener:
-#     try:
-#         listener.join()
-#     except MyException as e:
-#         print('{0} was pressed'.format(e.args[0]))
-
 
 
 conn = sqlite3.connect('word_bank.db')
@@ -44,114 +30,137 @@ cur = conn.cursor()
 cur.execute("""CREATE TABLE if not exists words_list(word text)""")
 
 conn.commit()
-
 conn.close()
 
-# def on_presss(self,key):
-#     print(key)
-#     # MainWindow.on_press(self,key)
-
-# listener = keyboard.Listener(
-#     on_press=on_presss)
-# listener.start()
 
 
 
 class MainWindow(QMainWindow):
 
+
     def __init__(self):
+
         super(MainWindow, self).__init__()
 
+
         self.ui = Ui_MainWindow()
+
         self.ui.setupUi(self)
 
 
 
-        self.setWindowFlag(Qt.WindowStaysOnTopHint) #Makes the main window stay on top even after clicking off of it.
-                                                    #This is essential because without it we wouldn't be able to see it when spelling.
+
+        self.setWindowFlag(Qt.WindowStaysOnTopHint) #Makes the main window stay on top even after clicking off of it. This is essential because without it we wouldn't be able to see it when spelling.
+
+           
+        #Listens for keyboard interaction from the user.
         listener = keyboard.Listener(
+
             on_press=self.on_press)
         listener.start()
-
-        # def on_release(key):
-        
-        # Collect events until released
-        # with keyboard.Listener(
-        #         on_press=on_press,
-        #         on_release=on_release) as listener:
-        #     listener.join()
-        
-        def mousePressEvent(self, e):
-            if e.button() == Qt.LeftButton:
-            # handle the left-button press in here
-                self.label.setText("mousePressEvent LEFT")
-
-        ###
-        #I need to make it so that this only activates when focus is lost on the main window
-        ###
-        
-        # if not self.isActiveWindow():
-        #     with keyboard.Events() as events:
-        #         for event in events:
-        #             if event.key == keyboard.Key.esc:
-        #                 break
-        #             else:
-        #                 # print('Received event {}'.format(event))
-        #                 self.on_press(event.key)
-
-        
-
-
-
+ 
 
 
         self.alphabet = ["a__________","b__________","c__________","d__________","e__________","f__________","g__________","h__________","i__________","j__________","k__________","l__________","m__________","n__________","o__________","p__________","q__________","r__________","s__________","t__________","u__________","v__________","w__________","x__________","y__________","z__________"]
 
+        self.alphabet_input_filter = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+        self.new_word_indicators = ["~","`","!","@","#","$","%","^","&","*","(",")","+","=","/","Key.tab","Key.space","Key.left","Key.up","Key.down","Key.right","Key.enter","Key.home","Key.end","Key.page_up","Key.page_down","<",">",",",".","?","\\",":",";",'"',"[","]","{","}","|"]
 
         # Buttons clicked
+
         self.ui.add_word_button.clicked.connect(self.add_word)
+
         self.ui.remove_word_button.clicked.connect(self.remove_word)
 
-        
         self.ui.search_bar.textEdited.connect(self.search)
-  
-        # if not self.ui.search_bar.hasFocus():
-        #     self.search()
-        
+
 
         # Load the words in from the word bank to the screen
         self.load_words()
 
 
+#*********************************************************************
+#Next three functions have to deal with managing outside input.
+#TODO#
+#If user clicks away from the word than it needs to reset.
+#TODO#
+#If it would be great if it could tell if there are letters before
+#the selection and be able to filter for that.
+
+
     def on_press(self,key):
-            # print(key)
         if not self.isActiveWindow():
-        #     with keyboard.Events() as events:
-        #         for event in events:
-        #             if event.key == keyboard.Key.esc:fd 
-        #                 break
-        #             else:
-        #                 # print('Received event {}'.format(event))
-        #       
 
-            #doesn't like them up here.
-            #I think this makes more sence since we havn't started the new thread yet
-            #so anything should crash it.
-            # if key == "Key.space":
-            #     self.ui.search_bar.clear()
-            #TODO#
-            #probably need to make this mulityprosing instead
-            #having issues with the outside inputs crashing
-            #the program do to the threading of the main loop
-            #of programming.
+            new_key = str(key).strip("'")
 
-            input_thread = threading.Thread(target=self.ui.search_bar.insert, args=(str(key).strip("'"),))
-            input_thread.start()
-            # self.ui.search_bar.insert(str(key))
+            # print(new_key)
+
+            if new_key.lower() in self.alphabet_input_filter:
+                self.filter_outside_letters(new_key)
+            elif new_key in self.new_word_indicators:
+                self.filter_outside_letters("")
+            elif new_key == "Key.backspace":
+                self.filter_outside_letters("Key.backspace")
+
+
+    def filter_outside_letters(self, key):
+
+        global input_string
+
+        conn = sqlite3.connect('word_bank.db')
+
+        cur = conn.cursor()
+
+        cur.execute("SELECT * FROM words_list")
+
+        word_record = cur.fetchall()
+         
+        conn.close()
+
+        self.ui.word_bank.clear()
+
+        print(input_string)
+
+        search_list = []
+
+        if key.isalpha():
+            input_string += key
+        elif key == "":
+            input_string = ""
+        elif key == "Key.backspace":
+            input_string = input_string[:-1]
+
+        for record in word_record:
+            search_list.append(record[0]) 
+
+        if input_string == "":
+            self.ui.word_bank.clear()
+            self.load_words()
+
+
+        self.filter_inputs(search_list,input_string)
+      
+
+    def filter_inputs(self, search_list, input_string):
+        
+        for word in search_list:
+           
+            if re.match(input_string, word, re.IGNORECASE): 
+                self.ui.word_bank.addItem(word) 
+
+        if len(self.ui.word_bank) == 0:
+            self.ui.word_bank.addItem("No results found.")
+
+#**********************************************************************
+
+
+#*********************************************************************
+#Next two functions have to deal with managing the search bar.
+
     # This function is in charge of making the search bar work.
     def search(self):
-
-        # We first need to get the words that the user has put into the database.
+        
+        # We first need to get the words that the user has put into the database. 
         conn = sqlite3.connect('word_bank.db')
 
         cur = conn.cursor()
@@ -159,209 +168,284 @@ class MainWindow(QMainWindow):
         cur.execute("SELECT * FROM words_list")
         word_record = cur.fetchall()
         
-        # I don't think there is anything to commit. Probably will remove in finally version.
-        # conn.commit()
-
         conn.close()
         self.ui.word_bank.clear()
         search_list =[]
 
-        #This would keep the alphabet showing when searching. So far I don't think this looks good and will not have it.
-        # self.ui.word_bank.addItems(self.alphabet)
-
-        #This is wat we get from the word_record. It is here to help me understand the
+        #This is what we get from the word_record. It is here to help me understand the
         #how to work with it.
         # word_record = ('aaaaaaaaaaaaaaaaaaaaa',), ('bat',), ('cat',), ('rat',), ('sat',), ('mat',), ('darn',)
 
-
         for record in word_record:
+
             search_list.append(record[0]) # Gets the word out of the tuple and makes a list of strings 
-        # reset_keys = [" ", 'Key.tab','Key.enter', ',' , "."]
-        # #If a new word is started we want to restart search. df
-        # for keys in reset_keys:
-        #     if keys in self.ui.search_bar.text() and len(self.ui.search_bar.text()) != 0:
-        #         self.ui.search_bar.clear()
-        # if " " in self.ui.search_bar.text():
-        #     self.ui.search_bar.clear()
-        # if "," in self.ui.search_bar.text():
-        #     self.ui.search_bar.clear()
-        # if "." in self.ui.search_bar.text():
-        #     self.ui.search_bar.clear()
 
-        # it does not like these.
-        # if "Key.space" in self.ui.search_bar.text(): 
-        #     self.ui.search_bar.clear()
+        search_reset = ["!","?",".",",",'"'," "]
+        for letter in self.ui.search_bar.text():
+            if letter in search_reset:
+                self.ui.search_bar.clear()
+                break
+    
 
-        
         #If we have nothing in the search bar than I want the whole list to be presented to the user.
         #We have to clear what the search has done so we don't repeat the words in the main list.
+
         if len(self.ui.search_bar.text()) == 0:
+
             self.ui.word_bank.clear()
 
             self.load_words()
+        else:
+            self.filtering(search_list)
 
 
-        self.filtering(search_list)
+    #This is the brains of the search bar 
 
+    def filtering(self, search_list):
         
 
-    #This is the brains of the search bar.
-    def filtering(self, search_list):
-
         for word in search_list:
-            if re.match(self.ui.search_bar.text(), word): #The re library's match starts from the beginning of the word and matches
-                                                          #it, in this case, to what is in the search bar.
+
+
+            #TODO#
+
+            #re.fullmatch(pattern, string, flags=0) potintaly use to determian if the whole word was spelled.
+
+            if re.match(self.ui.search_bar.text(), word, re.IGNORECASE): #The re library's match starts from the beginning of the word and matches it, in this case, to what is in the search bar.
+
                 self.ui.word_bank.addItem(word) 
 
+
         if len(self.ui.word_bank) == 0: #Let's the user know that what they have typed is not anywhere in there word bank.
+
             self.ui.word_bank.addItem("No results found.")
 
+#**********************************************************************
 
+
+#*********************************************************************
+#Next three functions have to deal with the add button.
 
     # Called if the 'add' button was pressed
+
     def add_word(self):
+
         ##TODO##
+
         #Make it so that this closes if the main window closes.
 
+
         #Shows the add window.
+
         self.add_win = QtWidgets.QMainWindow()
+
         self.add_ui = Ui_add_word_window()
+
         self.add_ui.setupUi(self.add_win)
+
         self.add_win.setWindowFlag(Qt.WindowStaysOnTopHint) #Allows for the add window to show on top of main window.
 
         self.add_win.show()
 
 
 
-        #Logic for the add window.
-        self.add_ui.add_word_line.returnPressed.connect(self.add_window_button)
-        self.add_ui.adding_pushButton.clicked.connect(self.add_window_button)
-        self.add_ui.cancel_add_pushButton.clicked.connect(self.close_window_button)
 
-        
+        #Logic for the add window.
+
+        self.add_ui.add_word_line.returnPressed.connect(self.add_window_button)
+
+        self.add_ui.adding_pushButton.clicked.connect(self.add_window_button)
+
+        self.add_ui.cancel_add_pushButton.clicked.connect(self.close_window_button)  
     
+
     def close_window_button(self):
         self.add_win.close()
 
 
+
     def add_window_button(self):
+
         ##### TODO ####
+
         # Add a way to varify that it is a valid word
+
         # aka no numbers or speshel charactors
+
 
 
         conn = sqlite3.connect('word_bank.db')
 
+
         cur = conn.cursor()
 
+
         cur.execute("INSERT INTO words_list VALUES (:word)",
+
         {
+
             'word': self.add_ui.add_word_line.text()
+
         }
         )
+
         self.ui.word_bank.addItem(self.add_ui.add_word_line.text())
+
 
         conn.commit()
 
         conn.close()
 
 
+
         self.ui.word_bank.sortItems()
         self.add_win.close()
     
+#*********************************************************************
+
+
+
+
+#*********************************************************************
+#Next two functions have to deal the remove button.
+
+
     # Called if the 'remove' button was pressed
+
     def remove_word(self):
+
 
         current_word = self.ui.word_bank.currentItem()
 
+
         # If the user didn't select a word than we don't
+
         # want to do anything.
+
         if current_word == None:
+
             pass
 
+
         else:
+
             self.delete_warning = QMessageBox()
+
             self.delete_warning.setWindowFlag(Qt.WindowStaysOnTopHint)#Allows for the remove window to show on top of main window.
+
             self.delete_warning.setWindowTitle("Warning: Deleting")
+
             self.delete_warning.setText(f'Are you sure you want to delete: "{current_word.text()}"')
+
             self.delete_warning.setIcon(QMessageBox.Warning)
+
             self.delete_warning.setStandardButtons(QMessageBox.Yes|QMessageBox.No)
+
             self.delete_warning.buttonClicked.connect(self.option_buttons)
 
+
             self.delete_warning.exec_()
-        
-
-
-
 
 
     def option_buttons(self, answer):
         
+
         if answer.text() == '&Yes':
 
+
             current_row = self.ui.word_bank.currentRow()
+
             current_word = self.ui.word_bank.currentItem()
+
 
             self.ui.word_bank.takeItem(current_row)
 
+
             conn = sqlite3.connect('word_bank.db')
+
 
             cur = conn.cursor()
 
+
             delete_query = """DELETE FROM words_list WHERE word = ?"""
 
+
             cur.execute(delete_query, (current_word.text(),))
+
 
             conn.commit()
 
             conn.close()
             
 
+
         elif answer.text() == '&No':
+
             pass
+
         else:
+
             pass
 
-    
+#*********************************************************************
+       
 
 
-        
-        
 
-
+#*********************************************************************
+#Loads words from the database. Used to set and reset the list that is
+#shown.
     def load_words(self):
+
 
         conn = sqlite3.connect('word_bank.db')
 
+
         cur = conn.cursor()
 
+
         cur.execute("SELECT * FROM words_list")
+
         word_record = cur.fetchall()
         
+
         conn.commit()
 
         conn.close()
 
+
         #May take out in final.
+
         # self.ui.word_bank.clear()
+
 
         self.ui.word_bank.addItems(self.alphabet)
 
+
         for record in word_record:
+
             self.ui.word_bank.addItems(record)
+
 
 
         self.ui.word_bank.sortItems()
         
+#*********************************************************************
+
 
 
 
 def main():
+
     app = QApplication(sys.argv)
+
     window = MainWindow()
     window.show()
+
     app.exec()
 
 
+
 if __name__ == "__main__":
+
     main()
