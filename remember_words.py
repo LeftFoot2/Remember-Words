@@ -4,10 +4,12 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtWidgets, QtCore
 from remember_words_gui_template_1 import Ui_MainWindow
 from add_word_window_1 import Ui_add_word_window
+from remove_word_window import Ui_remove_word_window
+from add_large_window import Ui_add_many_window
 import sys
 import sqlite3
 import re
-from pynput import keyboard
+from pynput import keyboard, mouse
 import threading
 import time
 
@@ -44,20 +46,24 @@ class MainWindow(QMainWindow):
 
 
         self.ui = Ui_MainWindow()
-
         self.ui.setupUi(self)
-
-
 
 
         self.setWindowFlag(Qt.WindowStaysOnTopHint) #Makes the main window stay on top even after clicking off of it. This is essential because without it we wouldn't be able to see it when spelling.
 
+        self.add_win = QtWidgets.QMainWindow()
+
+        self.del_win = QtWidgets.QMainWindow()
+
+        self.add_lar = QtWidgets.QMainWindow()
+
            
         #Listens for keyboard interaction from the user.
-        listener = keyboard.Listener(
-
-            on_press=self.on_press)
+        listener = keyboard.Listener(on_press=self.on_press)
         listener.start()
+
+        mlistener = mouse.Listener(on_click=self.on_click)
+        mlistener.start()
  
 
 
@@ -79,17 +85,17 @@ class MainWindow(QMainWindow):
         self.load_words()
 
 
+
 #*********************************************************************
-#Next three functions have to deal with managing outside input.
+#Next four functions have to deal with managing outside input.
 #TODO#
-#If user clicks away from the word than it needs to reset.
+#When minimized nothing should happen.
 #TODO#
 #If it would be great if it could tell if there are letters before
 #the selection and be able to filter for that.
 
-
     def on_press(self,key):
-        if not self.isActiveWindow():
+        if not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow():
 
             new_key = str(key).strip("'")
 
@@ -101,7 +107,6 @@ class MainWindow(QMainWindow):
                 self.filter_outside_letters("")
             elif new_key == "Key.backspace":
                 self.filter_outside_letters("Key.backspace")
-
 
     def filter_outside_letters(self, key):
 
@@ -119,8 +124,6 @@ class MainWindow(QMainWindow):
 
         self.ui.word_bank.clear()
 
-        print(input_string)
-
         search_list = []
 
         if key.isalpha():
@@ -136,11 +139,9 @@ class MainWindow(QMainWindow):
         if input_string == "":
             self.ui.word_bank.clear()
             self.load_words()
-
-
-        self.filter_inputs(search_list,input_string)
+        else:
+            self.filter_inputs(search_list,input_string)
       
-
     def filter_inputs(self, search_list, input_string):
         
         for word in search_list:
@@ -151,7 +152,21 @@ class MainWindow(QMainWindow):
         if len(self.ui.word_bank) == 0:
             self.ui.word_bank.addItem("No results found.")
 
+    def on_click(self,x, y, button, pressed):
+        if not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow():
+
+            
+            if str(button) == "Button.left":   
+                self.filter_outside_letters("")
+
+            elif str(button) == "Button.right":
+                pass 
+
+            else:
+                pass
+
 #**********************************************************************
+
 
 
 #*********************************************************************
@@ -177,7 +192,6 @@ class MainWindow(QMainWindow):
         # word_record = ('aaaaaaaaaaaaaaaaaaaaa',), ('bat',), ('cat',), ('rat',), ('sat',), ('mat',), ('darn',)
 
         for record in word_record:
-
             search_list.append(record[0]) # Gets the word out of the tuple and makes a list of strings 
 
         search_reset = ["!","?",".",",",'"'," "]
@@ -197,7 +211,6 @@ class MainWindow(QMainWindow):
             self.load_words()
         else:
             self.filtering(search_list)
-
 
     #This is the brains of the search bar 
 
@@ -223,80 +236,80 @@ class MainWindow(QMainWindow):
 #**********************************************************************
 
 
+
 #*********************************************************************
 #Next three functions have to deal with the add button.
 
-    # Called if the 'add' button was pressed
+    
 
+#TODO#
+# Add a way to verify that it is a valid words aka no numbers or special characters
+
+
+# Called if the 'add' button was pressed
     def add_word(self):
 
-        ##TODO##
-
+        ##TODO#Not necessary but nice# 
         #Make it so that this closes if the main window closes.
-
 
         #Shows the add window.
 
-        self.add_win = QtWidgets.QMainWindow()
-
+        # self.add_win = QtWidgets.QMainWindow()
         self.add_ui = Ui_add_word_window()
-
         self.add_ui.setupUi(self.add_win)
-
         self.add_win.setWindowFlag(Qt.WindowStaysOnTopHint) #Allows for the add window to show on top of main window.
-
         self.add_win.show()
 
-
-
-
+ 
         #Logic for the add window.
 
         self.add_ui.add_word_line.returnPressed.connect(self.add_window_button)
-
         self.add_ui.adding_pushButton.clicked.connect(self.add_window_button)
-
+        self.add_ui.add_multiple.clicked.connect(self.add_many)
         self.add_ui.cancel_add_pushButton.clicked.connect(self.close_window_button)  
     
 
+
     def close_window_button(self):
+
         self.add_win.close()
 
 
 
     def add_window_button(self):
-
-        ##### TODO ####
-
-        # Add a way to varify that it is a valid word
-
-        # aka no numbers or speshel charactors
-
+        dup = False
+        dup_list = []
 
 
         conn = sqlite3.connect('word_bank.db')
 
-
         cur = conn.cursor()
 
+        cur.execute("SELECT * FROM words_list")
+        word_record = cur.fetchall()
 
-        cur.execute("INSERT INTO words_list VALUES (:word)",
+        for record in word_record:
+            dup_list.append(record[0])
 
-        {
-
-            'word': self.add_ui.add_word_line.text()
-
-        }
-        )
-
-        self.ui.word_bank.addItem(self.add_ui.add_word_line.text())
+        for word in dup_list:
+            if word == self.add_ui.add_word_line.text():
+                dup = True
 
 
-        conn.commit()
+        if not dup:
+            cur.execute("INSERT INTO words_list VALUES (:word)",
 
+            {
+                'word': self.add_ui.add_word_line.text()
+            }
+            )
+
+            self.ui.word_bank.addItem(self.add_ui.add_word_line.text())
+
+            conn.commit()
         conn.close()
 
-
+        self.add_ui.add_word_line.clear()
 
         self.ui.word_bank.sortItems()
         self.add_win.close()
@@ -305,90 +318,199 @@ class MainWindow(QMainWindow):
 
 
 
+#*********************************************************************
+#TODO#
+#Make it possible to add more than one thing at a time.
+
+    def add_many(self):
+
+
+        self.add_many_ui = Ui_add_many_window()
+        self.add_many_ui.setupUi(self.add_lar)
+        self.add_lar.setWindowFlag(Qt.WindowStaysOnTopHint) #Allows for the add many window to show on top of main window.
+        self.add_lar.show()
+
+        self.add_many_ui.add_large_words.clicked.connect(self.add_large_button)
+        self.add_many_ui.cancel_large_words.clicked.connect(self.cancel_large_button)
+
+        self.add_win.close()
+
+
+    def add_large_button(self):
+
+
+        user_text = [] 
+        user_words = []
+        word = ""
+        count = 0
+
+        for letter in self.add_many_ui.large_add_box.toPlainText():
+            user_text.append(letter)
+
+        for letters in user_text:
+            count += 1
+
+            if letters.isalpha():
+                word += letters
+                if count == len(user_text):
+                    user_words.append(word)
+            else:
+                if word == "":
+                    pass
+                else:
+                    user_words.append(word)
+                    word = ""
+
+
+
+        conn = sqlite3.connect('word_bank.db')
+
+        cur = conn.cursor()
+        
+
+        for add_words in user_words:
+            dup = False
+            dup_list = []
+
+
+            cur.execute("SELECT * FROM words_list")
+            word_record = cur.fetchall()
+
+            for record in word_record:
+                dup_list.append(record[0])
+
+            for word in dup_list:
+                if word == add_words:
+                    dup = True
+
+            if not dup:
+                cur.execute("INSERT INTO words_list VALUES (:word)",
+                {
+                    'word': add_words
+                }
+                )
+                self.ui.word_bank.addItem(add_words)
+                conn.commit()
+
+        conn.close()
+
+        # self.add_ui.add_word_line.clear()
+
+        self.ui.word_bank.sortItems()
+        self.add_lar.close()
+
+    def cancel_large_button(self):
+        self.add_lar.close()
 
 #*********************************************************************
-#Next two functions have to deal the remove button.
 
+
+
+#*********************************************************************
+#Next three functions have to deal the remove button.
 
     # Called if the 'remove' button was pressed
-
     def remove_word(self):
-
 
         current_word = self.ui.word_bank.currentItem()
 
-
         # If the user didn't select a word than we don't
-
         # want to do anything.
 
         if current_word == None:
-
-            pass
-
-
-        else:
-
-            self.delete_warning = QMessageBox()
-
-            self.delete_warning.setWindowFlag(Qt.WindowStaysOnTopHint)#Allows for the remove window to show on top of main window.
-
-            self.delete_warning.setWindowTitle("Warning: Deleting")
-
-            self.delete_warning.setText(f'Are you sure you want to delete: "{current_word.text()}"')
-
-            self.delete_warning.setIcon(QMessageBox.Warning)
-
-            self.delete_warning.setStandardButtons(QMessageBox.Yes|QMessageBox.No)
-
-            self.delete_warning.buttonClicked.connect(self.option_buttons)
-
-
-            self.delete_warning.exec_()
-
-
-    def option_buttons(self, answer):
-        
-
-        if answer.text() == '&Yes':
-
-
-            current_row = self.ui.word_bank.currentRow()
-
-            current_word = self.ui.word_bank.currentItem()
-
-
-            self.ui.word_bank.takeItem(current_row)
-
-
-            conn = sqlite3.connect('word_bank.db')
-
-
-            cur = conn.cursor()
-
-
-            delete_query = """DELETE FROM words_list WHERE word = ?"""
-
-
-            cur.execute(delete_query, (current_word.text(),))
-
-
-            conn.commit()
-
-            conn.close()
-            
-
-
-        elif answer.text() == '&No':
-
             pass
 
         else:
 
-            pass
+            self.del_ui = Ui_remove_word_window()
+            self.del_ui.setupUi(self.del_win)
+
+            self.del_win.setWindowFlag(Qt.WindowStaysOnTopHint) #Allows for the delete window to show on top of main window.
+            self.del_win.show()
+
+            self.del_ui.delete_label.setText(f"Warning: You are about to delete {current_word.text()}")
+
+
+            self.del_ui.yes_del_button.clicked.connect(self.del_window_button)
+            self.del_ui.cancel_del_button.clicked.connect(self.close_del_window_button)
+
+
+
+
+    def close_del_window_button(self):
+
+
+        self.del_win.close()
+
+
+
+    def del_window_button(self):
+
+        current_word = self.ui.word_bank.currentItem()
+
+        # self.ui.word_bank.takeItem(current_row)
+
+        conn = sqlite3.connect('word_bank.db')
+
+        cur = conn.cursor()
+
+        delete_query = """DELETE FROM words_list WHERE word = ?"""
+
+        cur.execute(delete_query, (current_word.text(),))
+
+        conn.commit()
+        conn.close()
+
+        self.del_win.close()
+
+        self.load_words()
+
 
 #*********************************************************************
-       
+
+
+
+#*********************************************************************
+#TODO#
+#Make it possible to remove more than one thing at a time.
+
+#*********************************************************************
+
+
+
+#*********************************************************************
+#TODO#
+#Text to speech and definition.
+
+
+#*********************************************************************
+
+
+
+#*********************************************************************
+#TODO#
+#Ability to change settings.
+
+
+#*********************************************************************
+
+
+
+#*********************************************************************
+#TODO#
+#Download and upload lists
+
+
+#*********************************************************************
+
+
+
+#*********************************************************************
+#TODO#
+#Change color and style. #NOTE# This may be done solely in the designer.
+
+
+#*********************************************************************
 
 
 
@@ -416,15 +538,15 @@ class MainWindow(QMainWindow):
 
         #May take out in final.
 
-        # self.ui.word_bank.clear()
+        self.ui.word_bank.clear()
+        
 
 
         self.ui.word_bank.addItems(self.alphabet)
 
 
         for record in word_record:
-
-            self.ui.word_bank.addItems(record)
+            self.ui.word_bank.addItem(record[0])
 
 
 
@@ -443,7 +565,6 @@ def main():
     window.show()
 
     app.exec()
-
 
 
 if __name__ == "__main__":

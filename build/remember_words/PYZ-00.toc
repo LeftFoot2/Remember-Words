@@ -358,6 +358,9 @@
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\remember_words_gui_template_1.py',
    'PYMODULE'),
+  ('remove_word_window',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior Project\\remove_word_window.py',
+   'PYMODULE'),
   ('selectors',
    'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\selectors.py',
    'PYMODULE'),

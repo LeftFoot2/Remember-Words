@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_add_word_window(object):
     def setupUi(self, add_word_window):
         add_word_window.setObjectName("add_word_window")
-        add_word_window.resize(253, 144)
+        add_word_window.resize(297, 131)
         self.centralwidget = QtWidgets.QWidget(add_word_window)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -28,8 +28,8 @@ class Ui_add_word_window(object):
         self.add_word_line.setObjectName("add_word_line")
         self.verticalLayout.addWidget(self.add_word_line)
         self.frame = QtWidgets.QFrame(self.centralwidget)
-        self.frame.setMinimumSize(QtCore.QSize(231, 52))
-        self.frame.setMaximumSize(QtCore.QSize(245, 52))
+        self.frame.setMinimumSize(QtCore.QSize(275, 52))
+        self.frame.setMaximumSize(QtCore.QSize(275, 52))
         self.frame.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -39,6 +39,9 @@ class Ui_add_word_window(object):
         self.adding_pushButton = QtWidgets.QPushButton(self.frame)
         self.adding_pushButton.setObjectName("adding_pushButton")
         self.horizontalLayout.addWidget(self.adding_pushButton)
+        self.add_multiple = QtWidgets.QPushButton(self.frame)
+        self.add_multiple.setObjectName("add_multiple")
+        self.horizontalLayout.addWidget(self.add_multiple)
         self.cancel_add_pushButton = QtWidgets.QPushButton(self.frame)
         self.cancel_add_pushButton.setObjectName("cancel_add_pushButton")
         self.horizontalLayout.addWidget(self.cancel_add_pushButton)
@@ -53,14 +56,5 @@ class Ui_add_word_window(object):
         add_word_window.setWindowTitle(_translate("add_word_window", "Add Word"))
         self.add_word_line.setPlaceholderText(_translate("add_word_window", "Type word"))
         self.adding_pushButton.setText(_translate("add_word_window", "Add"))
+        self.add_multiple.setText(_translate("add_word_window", "Add Multiple"))
         self.cancel_add_pushButton.setText(_translate("add_word_window", "Cancel"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    add_word_window = QtWidgets.QMainWindow()
-    ui = Ui_add_word_window()
-    ui.setupUi(add_word_window)
-    add_word_window.show()
-    sys.exit(app.exec_())
