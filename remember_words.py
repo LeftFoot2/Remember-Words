@@ -18,7 +18,8 @@ from PyDictionary import PyDictionary
 
 
 #TODO#
-# Figure out if I can go back to were I made my branch
+# work out definition updateing
+#
 # Make it so each word has it's deffenitions in the database.
 # Defenitions will be added to the to the tooltip in the load words function
 #
@@ -46,7 +47,7 @@ conn = sqlite3.connect('word_bank.db')
 cur = conn.cursor()
 
 
-cur.execute("""CREATE TABLE if not exists words_list(word text)""")
+cur.execute("""CREATE TABLE if not exists words_list(word text, definition text)""")
 
 
 conn.commit()
@@ -159,7 +160,7 @@ class MainWindow(QMainWindow):
 
         cur = conn.cursor()
 
-        cur.execute("SELECT * FROM words_list")
+        cur.execute("SELECT word FROM words_list")
 
         word_record = cur.fetchall()
          
@@ -237,8 +238,9 @@ class MainWindow(QMainWindow):
         #This is what we get from the word_record. It is here to help me understand the
         #how to work with it.
         # word_record = ('aaaaaaaaaaaaaaaaaaaaa',), ('bat',), ('cat',), ('rat',), ('sat',), ('mat',), ('darn',)
-
+        # print(word_record)
         for record in word_record:
+            
             search_list.append(record[0]) # Gets the word out of the tuple and makes a list of strings 
 
         search_reset = ["!","?",".",",",'"'," "]
@@ -265,6 +267,8 @@ class MainWindow(QMainWindow):
         
 
         for word in search_list:
+            # print(f'in filter {type(word)}')
+
 
 
             #TODO#
@@ -285,7 +289,7 @@ class MainWindow(QMainWindow):
 
 
 #*********************************************************************
-#Next three functions have to deal with the add button.
+#Next two functions have to deal with the add button.
 
     
 
@@ -318,7 +322,6 @@ class MainWindow(QMainWindow):
         self.add_win.setWindowFlag(Qt.WindowStaysOnTopHint) #Allows for the add window to show on top of main window.
         self.add_win.show()
 
- 
 
         #Logic for the add window.
 
@@ -338,45 +341,6 @@ class MainWindow(QMainWindow):
 
         self.add_win.close()
 
-
-
-
-    # def add_window_button(self):
-    #     dup = False
-    #     dup_list = []
-    #     print(self.add_win.isActiveWindow())
-
-    #     conn = sqlite3.connect('word_bank.db')
-
-    #     cur = conn.cursor()
-
-    #     cur.execute("SELECT * FROM words_list")
-    #     word_record = cur.fetchall()
-
-    #     for record in word_record:
-    #         dup_list.append(record[0])
-
-    #     for word in dup_list:
-    #         if word == self.add_ui.add_word_line.text():
-    #             dup = True
-
-
-    #     if not dup:
-    #         cur.execute("INSERT INTO words_list VALUES (:word)",
-
-    #         {
-    #             'word': self.add_ui.add_word_line.text()
-    #         }
-    #         )
-
-    #         self.ui.word_bank.addItem(self.add_ui.add_word_line.text())
-    #         conn.commit()
-    #     conn.close()
-    #     self.add_ui.add_word_line.clear()
-    #     self.ui.word_bank.sortItems()
-    #     self.add_win.close()
-    #     print(self.add_win.isActiveWindow())
-
 #*********************************************************************
 
 
@@ -391,8 +355,6 @@ class MainWindow(QMainWindow):
 
     def add_many(self):
 
-
-
         self.add_many_ui = Ui_add_many_window()
 
         self.add_many_ui.setupUi(self.add_lar)
@@ -400,9 +362,7 @@ class MainWindow(QMainWindow):
         self.add_lar.setWindowFlag(Qt.WindowStaysOnTopHint) #Allows for the add many window to show on top of main window.
         self.add_lar.show()
 
-
         self.add_many_ui.add_large_words.clicked.connect(self.add_single_or_many)
-
         self.add_many_ui.cancel_large_words.clicked.connect(self.cancel_large_button)
 
         self.add_win.close()
@@ -411,15 +371,19 @@ class MainWindow(QMainWindow):
 
     def add_single_or_many(self):
 
-
-
         user_text = [] 
         user_words = []
         def_word_thread_list = []
         word = ""
         count = 0
 
+
+        #This determines whether it is adding a single word from that window or many.
+        #It does this by seeing if the add_win is active or not.
         if self.add_win.isActiveWindow():
+            #To add many words I separated the the words into individual letters.
+            #Since I combined both the many and the single addition functions
+            #I need to treat the single as the same.
             for letter in self.add_ui.add_word_line.text():
                 user_text.append(letter)
         else:
@@ -430,8 +394,10 @@ class MainWindow(QMainWindow):
         for letters in user_text:
             count += 1
 
+            #isalpha determines if the input was a letter.
             if letters.isalpha():
                 word += letters
+                #the count will equal the user_text aka the word when all the letters are added to the word string.
                 if count == len(user_text):
                     user_words.append(word)
             else:
@@ -453,39 +419,44 @@ class MainWindow(QMainWindow):
             dup_list = []
 
 
-            cur.execute("SELECT * FROM words_list")
+            cur.execute("SELECT word FROM words_list")
             word_record = cur.fetchall()
 
+            #we don't want the user to be able to add duplicate words
             for record in word_record:
                 dup_list.append(record[0])
 
             for word in dup_list:
-                if word == add_words:
+                if word.lower() == add_words.lower():
                     dup = True
 
             if not dup:
-                # #put threads here
-                # thread = threading.Thread(target=self.word_addition_definition, args=(add_words,))
-                # def_word_thread_list.append(thread)
-                cur.execute("INSERT INTO words_list VALUES (:word)",
+                #inserting the word and a blank definition into the database
+                cur.execute("INSERT INTO words_list VALUES (:word, :definition)",
                 {
                     'word': add_words,
-                    # 'definition': word_def
+                    #the definition needs to be updated. This is done in separate threads because
+                    #the manner of getting the definitions is slow and would cause the user to experience
+                    #a great deal of lag.
+                    'definition': ""
                 }
                 )
                 self.ui.word_bank.addItem(add_words)
-
+                #threads for adding the definitions
+                thread = threading.Thread(target=self.word_addition_definition, args=(add_words,))
+                def_word_thread_list.append(thread)
 
                 conn.commit()
 
         conn.close()
 
-        # 
-        # for threads in def_word_thread_list:
-        #     threads.start()
+        
+        for threads in def_word_thread_list:
+            threads.start()
 
         self.ui.word_bank.sortItems()
 
+        #since this can be either addition window we need to make sure we try and close the right one.
         if self.add_win.isActiveWindow():
             self.add_ui.add_word_line.clear()
             self.add_win.close()
@@ -574,6 +545,7 @@ class MainWindow(QMainWindow):
 
         cur = conn.cursor()
 
+        #delete all selected words
         for words in word_list:
 
             delete_query = """DELETE FROM words_list WHERE word = ?"""
@@ -602,48 +574,32 @@ class MainWindow(QMainWindow):
 #Text to speech and definition.
 
     def text_to_speech(self):
-
+        #This is from a simple library that allows words to be read out load by the computer.
         engine = pyttsx3.init()
 
         engine.say(self.ui.word_bank.currentItem().text())
 
         engine.runAndWait()
 
+
     def word_addition_definition(self, word):
-        pass
-        # count = 0
-        # pass
-        # # d = PyDictionary()
-        # # definitions = {}
-        # tool_tip_word_def = dictionary.meaning(word)
 
-        # tool_tip_word.setToolTip(f"{word}")
+        word_def = dictionary.meaning(word)
+        word_def_string = str(word_def)
+        conn = sqlite3.connect('word_bank.db')
+        cur = conn.cursor()
 
+        #The definition will be set for the correct words do to the WHERE clause.
+        cur.execute("UPDATE words_list SET definition=:definition WHERE word=:word", 
+        {
+            'definition': word_def_string,
+            'word': word
 
-        # self.load_words()
-        # word_def = dictionary.meaning(word)
-        # # print(type(word_def))
-        
-        # for i in range(self.ui.word_bank.count()):
-        #     if self.ui.word_bank.item(i).text() == word:
-        #         word_tip = self.ui.word_bank.item(i)
-        #         word_tip.setToolTip(f"{word_def}")
+        })
 
-        # word.setToolTip(f"{word_def}")
-        # print(word_def)
+        conn.commit()
 
-        # print(defi)
-        # for word in word_list:
-        #     # print(word[0])
-        #     tool_tip_word = self.ui.word_bank.item(count)
-        #     word_in_text = self.ui.word_bank.item(count).text()
-        #     definitions[word_in_text] = d.meaning(word_in_text)
-        #     print(definitions)
-        #     # print(PyDictionary.meaning(word_in_text))
-        #     # dictionary.getMeanings()
-              # tool_tip_word.setToolTip(f"{dictionary.meaning(word_in_text)}")
-
-        #     count += 1
+        conn.close()
 
 
 #*********************************************************************
@@ -680,7 +636,7 @@ class MainWindow(QMainWindow):
         conn = sqlite3.connect('word_bank.db')
 
         cur = conn.cursor()
-        cur.execute("SELECT * FROM words_list")
+        cur.execute("SELECT word, definition FROM words_list")
 
         word_record = cur.fetchall()
 
@@ -692,29 +648,18 @@ class MainWindow(QMainWindow):
         #May take out in final.
         self.ui.word_bank.clear()
 
-        def_word_thread_list = []
+
        
         for record in word_record:
-            # print(record[0])
             self.ui.word_bank.addItem(record[0])
-            # self.ui.word_bank.setToolTip(f"{record[0]}")
-        #     thread = threading.Thread(target=self.word_definition, args=(record[0],))
-        #     def_word_thread_list.append(thread)
 
-        # for threads in def_word_thread_list:
-        #     threads.start()
-
-        # for word in word_record:
-        #     thread.join()
-        # self.word_definition(word_record)
-
-
-
+            for i in range(self.ui.word_bank.count()):
+                if self.ui.word_bank.item(i).text() == record[0]:
+                    word_tip = self.ui.word_bank.item(i)
+                    word_tip.setToolTip(f"{record[1]}")
 
 
         self.ui.word_bank.addItems(self.alphabet)
-
-
 
         self.ui.word_bank.sortItems()
         
@@ -726,20 +671,12 @@ class MainWindow(QMainWindow):
 
 
 def main():
-
-
     app = QApplication(sys.argv)
-
 
     window = MainWindow()
     window.show()
 
-
     app.exec()
 
-
-
 if __name__ == "__main__":
-
-
     main()
