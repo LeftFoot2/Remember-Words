@@ -69,6 +69,9 @@
         <pointsize>9</pointsize>
        </font>
       </property>
+      <property name="resizeMode">
+       <enum>QListView::Fixed</enum>
+      </property>
       <property name="gridSize">
        <size>
         <width>0</width>
@@ -79,14 +82,32 @@
     </item>
    </layout>
   </widget>
-  <action name="actionAdd">
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>291</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="actionSettings"/>
+    <addaction name="actionDownload_Database"/>
+   </widget>
+   <addaction name="menuOptions"/>
+  </widget>
+  <action name="actionSettings">
    <property name="text">
-    <string>Add</string>
+    <string>Settings</string>
    </property>
   </action>
-  <action name="actionRemove">
+  <action name="actionDownload_Database">
    <property name="text">
-    <string>Remove</string>
+    <string>Download Database</string>
    </property>
   </action>
  </widget>

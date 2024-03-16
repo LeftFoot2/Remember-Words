@@ -6,6 +6,7 @@ from remember_words_gui_template_1 import Ui_MainWindow
 from add_word_window_1 import Ui_add_word_window
 from remove_word_window import Ui_remove_word_window
 from add_large_window import Ui_add_many_window
+from settings_remember_words import Ui_Settings
 import sys
 import sqlite3
 import re
@@ -14,14 +15,18 @@ import threading
 import time
 import pyttsx3
 from PyDictionary import PyDictionary
+from configparser import ConfigParser
 
 
 
 #TODO#
-# work out definition updateing
+# working on getting the database of fonts into the pull down menu.
 #
-# Make it so each word has it's deffenitions in the database.
-# Defenitions will be added to the to the tooltip in the load words function
+# 
+#BUG#the following are a few known bugs
+#hovering over words does not give the definitions for newly added words unto the list is reloaded
+#same with words that have been filtered out
+#
 #
 
 
@@ -77,6 +82,8 @@ class MainWindow(QMainWindow):
 
         self.add_lar = QtWidgets.QMainWindow()
 
+        self.set_win = QtWidgets.QMainWindow()
+
            
 
         #Listens for keyboard interaction from the user.
@@ -97,8 +104,12 @@ class MainWindow(QMainWindow):
 
 
         self.alphabet_input_filter = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
-
         self.new_word_indicators = ["~","`","!","@","#","$","%","^","&","*","(",")","+","=","/","Key.tab","Key.space","Key.left","Key.up","Key.down","Key.right","Key.enter","Key.home","Key.end","Key.page_up","Key.page_down","<",">",",",".","?","\\",":",";",'"',"[","]","{","}","|"]
+
+        self.config = ConfigParser()
+        self.font_database = QFontDatabase()
+        self.new_font = QFont()
+
 
 
 
@@ -107,10 +118,9 @@ class MainWindow(QMainWindow):
         # Buttons clicked
 
         self.ui.add_word_button.clicked.connect(self.add_word)
-
         self.ui.remove_word_button.clicked.connect(self.remove_word)
-
         self.ui.search_bar.textEdited.connect(self.search)
+        self.ui.actionSettings.triggered.connect(self.settings_window)
 
 
 
@@ -118,8 +128,7 @@ class MainWindow(QMainWindow):
         self.load_words()
 
 
-    def hover_call(self,item):
-        print(item.text())
+
 
 #*********************************************************************
 #Next four functions have to deal with managing outside input.
@@ -131,7 +140,7 @@ class MainWindow(QMainWindow):
 
     def on_press(self,key):
 
-        if not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow():
+        if not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow() and not self.set_win.isActiveWindow():
 
 
             new_key = str(key).strip("'")
@@ -202,7 +211,7 @@ class MainWindow(QMainWindow):
             self.ui.word_bank.addItem("No results found.")
 
     def on_click(self,x, y, button, pressed):
-        if not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow():
+        if not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow() and not self.set_win.isActiveWindow():
             
 
             if str(button) == "Button.left":   
@@ -243,6 +252,8 @@ class MainWindow(QMainWindow):
             
             search_list.append(record[0]) # Gets the word out of the tuple and makes a list of strings 
 
+
+
         search_reset = ["!","?",".",",",'"'," "]
         for letter in self.ui.search_bar.text():
             if letter in search_reset:
@@ -277,7 +288,8 @@ class MainWindow(QMainWindow):
 
             if re.match(self.ui.search_bar.text(), word, re.IGNORECASE): #The re library's match starts from the beginning of the word and matches it, in this case, to what is in the search bar.
 
-                self.ui.word_bank.addItem(word) 
+                self.ui.word_bank.addItem(word)
+
 
 
         if len(self.ui.word_bank) == 0: #Let's the user know that what they have typed is not anywhere in there word bank.
@@ -324,14 +336,9 @@ class MainWindow(QMainWindow):
 
 
         #Logic for the add window.
-
-
         self.add_ui.add_word_line.returnPressed.connect(self.add_single_or_many)
-
         self.add_ui.adding_pushButton.clicked.connect(self.add_single_or_many)
-
         self.add_ui.add_multiple.clicked.connect(self.add_many)
-
         self.add_ui.cancel_add_pushButton.clicked.connect(self.close_window_button)  
     
 
@@ -610,6 +617,78 @@ class MainWindow(QMainWindow):
 #TODO#
 #Ability to change settings.
 
+    def settings_window(self):
+        # for i in self.font_database.families():
+        # print(self.font_database.styles("Cascadia Mono Light"))
+        # print(self.font_database.font('Wingdings','Regular',9))
+
+
+
+
+        self.set_ui = Ui_Settings()
+        self.set_ui.setupUi(self.set_win)
+        #need to set settings here so that the current settings are shown
+        for fonts in self.font_database.families():
+            self.set_ui.font_change.addItem(fonts)
+
+
+
+        self.config.read("settings.ini")
+        
+        if self.set_ui.alphabet_toggle.isChecked() != self.config.getboolean("User_Settings","user_alphabet"):
+            self.set_ui.alphabet_toggle.setChecked(self.config.getboolean("User_Settings","user_alphabet"))
+
+        if self.set_ui.font_size.value() != int(self.config["User_Settings"]["user_font_size"]):
+            self.set_ui.font_size.setValue(int(self.config["User_Settings"]["user_font_size"]))
+        
+        self.set_ui.font_change.setCurrentIndex(self.set_ui.font_change.findText(self.config["User_Settings"]["user_font_type"]))
+
+
+
+        self.set_win.setWindowFlag(Qt.WindowStaysOnTopHint) #Allows for the window to show on top of other windows.
+        self.set_win.show()
+
+        #activation listeners
+        self.set_ui.save_changes.clicked.connect(self.save_settings)
+        self.set_ui.default_changes.clicked.connect(self.default_settings)
+        self.set_ui.cancel_changes.clicked.connect(self.close_settings)
+
+
+
+    def save_settings(self):
+        self.config.read("settings.ini")
+
+        self.config["User_Settings"]["user_alphabet"]=str(self.set_ui.alphabet_toggle.isChecked())
+        self.config["User_Settings"]["user_font_type"]=self.set_ui.font_change.currentText()
+        self.config["User_Settings"]["user_font_size"]=str(self.set_ui.font_size.value())
+
+        with open("settings.ini", "w") as file:
+            self.config.write(file)
+
+
+        self.load_words()
+
+        self.set_win.close()
+
+
+    def default_settings(self):
+        self.config.read("settings.ini")
+
+        self.config["User_Settings"]["user_alphabet"]=str(self.config.getboolean("Default","default_alphabet"))
+        self.config["User_Settings"]["user_font_type"]=self.config["Default"]["default_font_type"]
+        self.config["User_Settings"]["user_font_size"]=self.config["Default"]["default_font_size"]
+
+        with open("settings.ini", "w") as file:
+            self.config.write(file)
+
+        self.load_words()
+        self.set_win.close()
+
+
+
+    def close_settings(self):
+        self.set_win.close()
+
 #*********************************************************************
 
 
@@ -632,7 +711,8 @@ class MainWindow(QMainWindow):
 #Loads words from the database. Used to set and reset the list that is
 #shown.
     def load_words(self):
-
+        self.config.read("settings.ini")
+        
         conn = sqlite3.connect('word_bank.db')
 
         cur = conn.cursor()
@@ -659,7 +739,13 @@ class MainWindow(QMainWindow):
                     word_tip.setToolTip(f"{record[1]}")
 
 
-        self.ui.word_bank.addItems(self.alphabet)
+                    
+        if self.config.getboolean("User_Settings","user_alphabet"):
+            self.ui.word_bank.addItems(self.alphabet)
+
+        self.new_font.setFamily(self.config["User_Settings"]["user_font_type"])
+        self.new_font.setPointSize(int(self.config["User_Settings"]["user_font_size"]))
+        self.ui.word_bank.setFont(self.new_font)
 
         self.ui.word_bank.sortItems()
         
