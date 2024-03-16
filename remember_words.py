@@ -60,7 +60,6 @@ conn.close()
 
 
 
-
 class MainWindow(QMainWindow):
 
 
@@ -110,8 +109,23 @@ class MainWindow(QMainWindow):
         self.font_database = QFontDatabase()
         self.new_font = QFont()
 
+        try:
+            self.config.read("settings.ini")
+            self.config.getboolean("Default","default_alphabet")
+            
+        except:
+            self.config["Default"]={}
+            self.config["Default"]["default_alphabet"] = "True"
+            self.config["Default"]["default_font_type"] = "Cascadia Mono Light"
+            self.config["Default"]["default_font_size"] = "9"
 
+            self.config["User_Settings"]={}
+            self.config["User_Settings"]["user_alphabet"] = "True"
+            self.config["User_Settings"]["user_font_type"] = "Cascadia Mono Light"
+            self.config["User_Settings"]["user_font_size"]= "9"
 
+            with open("settings.ini", "w") as file:
+                self.config.write(file)
 
         self.ui.word_bank.setSelectionMode(QAbstractItemView.ExtendedSelection)  
 
@@ -711,7 +725,6 @@ class MainWindow(QMainWindow):
 #Loads words from the database. Used to set and reset the list that is
 #shown.
     def load_words(self):
-        self.config.read("settings.ini")
         
         conn = sqlite3.connect('word_bank.db')
 
@@ -739,7 +752,8 @@ class MainWindow(QMainWindow):
                     word_tip.setToolTip(f"{record[1]}")
 
 
-                    
+        self.config.read("settings.ini")
+        
         if self.config.getboolean("User_Settings","user_alphabet"):
             self.ui.word_bank.addItems(self.alphabet)
 
