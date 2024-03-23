@@ -10,6 +10,7 @@ from settings_remember_words import Ui_Settings
 import sys
 import sqlite3
 import re
+import os
 from pynput import keyboard, mouse
 import threading
 import time
@@ -20,7 +21,7 @@ from configparser import ConfigParser
 
 
 #TODO#
-# working on getting the database of fonts into the pull down menu.
+# 
 #
 # 
 #BUG#the following are a few known bugs
@@ -38,6 +39,7 @@ dictionary = PyDictionary()
 # print(dictionary.printMeanings())
 
 
+
 input_string = ""
 
 #######
@@ -47,13 +49,13 @@ input_string = ""
 ######
 
 
+
+#Create a database for the words if one doesn't already exist.
 conn = sqlite3.connect('word_bank.db')
 
 cur = conn.cursor()
 
-
 cur.execute("""CREATE TABLE if not exists words_list(word text, definition text)""")
-
 
 conn.commit()
 conn.close()
@@ -71,18 +73,19 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.setWindowIcon(QIcon('book_icon.png'))
 
 
         self.setWindowFlag(Qt.WindowStaysOnTopHint) #Makes the main window stay on top even after clicking off of it. This is essential because without it we wouldn't be able to see it when spelling.
-
         self.add_win = QtWidgets.QMainWindow()
-
         self.del_win = QtWidgets.QMainWindow()
-
         self.add_lar = QtWidgets.QMainWindow()
-
         self.set_win = QtWidgets.QMainWindow()
 
+        self.add_win.setWindowIcon(QIcon('book_icon.png'))
+        self.del_win.setWindowIcon(QIcon('book_icon.png'))
+        self.add_lar.setWindowIcon(QIcon('book_icon.png'))
+        self.set_win.setWindowIcon(QIcon('book_icon.png'))
            
 
         #Listens for keyboard interaction from the user.
@@ -90,25 +93,22 @@ class MainWindow(QMainWindow):
         listener = keyboard.Listener(on_press=self.on_press)
         listener.start()
 
-
         mlistener = mouse.Listener(on_click=self.on_click)
-
         mlistener.start()
  
 
         self.ui.word_bank.itemDoubleClicked.connect(self.text_to_speech)
 
-
         self.alphabet = ["a__________","b__________","c__________","d__________","e__________","f__________","g__________","h__________","i__________","j__________","k__________","l__________","m__________","n__________","o__________","p__________","q__________","r__________","s__________","t__________","u__________","v__________","w__________","x__________","y__________","z__________"]
 
-
-        self.alphabet_input_filter = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+        # self.alphabet_input_filter = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
         self.new_word_indicators = ["~","`","!","@","#","$","%","^","&","*","(",")","+","=","/","Key.tab","Key.space","Key.left","Key.up","Key.down","Key.right","Key.enter","Key.home","Key.end","Key.page_up","Key.page_down","<",">",",",".","?","\\",":",";",'"',"[","]","{","}","|"]
 
         self.config = ConfigParser()
         self.font_database = QFontDatabase()
         self.new_font = QFont()
 
+        #Creates and ini file that will hold settings information. Only runs for first run of the program.
         try:
             self.config.read("settings.ini")
             self.config.getboolean("Default","default_alphabet")
@@ -135,6 +135,8 @@ class MainWindow(QMainWindow):
         self.ui.remove_word_button.clicked.connect(self.remove_word)
         self.ui.search_bar.textEdited.connect(self.search)
         self.ui.actionSettings.triggered.connect(self.settings_window)
+        self.ui.actionDownload_Database.triggered.connect(self.download_database)
+        self.ui.actionUpload_Database.triggered.connect(self.upload_file)
 
 
 
@@ -163,15 +165,13 @@ class MainWindow(QMainWindow):
             # print(new_key)
 
 
-            if new_key.lower() in self.alphabet_input_filter:
-
+            if new_key.isalpha():#lower() in self.alphabet_input_filter:
                 self.filter_outside_letters(new_key)
 
             elif new_key in self.new_word_indicators:
                 self.filter_outside_letters("")
 
             elif new_key == "Key.backspace":
-
                 self.filter_outside_letters("Key.backspace")
 
 
@@ -180,17 +180,11 @@ class MainWindow(QMainWindow):
         global input_string
 
         conn = sqlite3.connect('word_bank.db')
-
         cur = conn.cursor()
-
         cur.execute("SELECT word FROM words_list")
-
-        word_record = cur.fetchall()
-         
+        word_record = cur.fetchall()   
         conn.close()
-
         self.ui.word_bank.clear()
-
         search_list = []
 
         if key.isalpha():
@@ -214,20 +208,16 @@ class MainWindow(QMainWindow):
 
         for word in search_list:
            
-
             if re.match(input_string, word, re.IGNORECASE): 
-
                 self.ui.word_bank.addItem(word) 
 
 
         if len(self.ui.word_bank) == 0:
-
             self.ui.word_bank.addItem("No results found.")
 
     def on_click(self,x, y, button, pressed):
         if not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow() and not self.set_win.isActiveWindow():
             
-
             if str(button) == "Button.left":   
                 self.filter_outside_letters("")
 
@@ -330,7 +320,6 @@ class MainWindow(QMainWindow):
 
     def add_word(self):
 
-
         ##TODO#Not necessary but nice# 
 
         #Make it so that this closes if the main window closes.
@@ -338,16 +327,11 @@ class MainWindow(QMainWindow):
 
         #Shows the add window.
 
-
-        # self.add_win = QtWidgets.QMainWindow()
-
         self.add_ui = Ui_add_word_window()
-
         self.add_ui.setupUi(self.add_win)
 
         self.add_win.setWindowFlag(Qt.WindowStaysOnTopHint) #Allows for the add window to show on top of main window.
         self.add_win.show()
-
 
         #Logic for the add window.
         self.add_ui.add_word_line.returnPressed.connect(self.add_single_or_many)
@@ -355,8 +339,6 @@ class MainWindow(QMainWindow):
         self.add_ui.add_multiple.clicked.connect(self.add_many)
         self.add_ui.cancel_add_pushButton.clicked.connect(self.close_window_button)  
     
-
-
 
     def close_window_button(self):
 
@@ -407,10 +389,13 @@ class MainWindow(QMainWindow):
             #I need to treat the single as the same.
             for letter in self.add_ui.add_word_line.text():
                 user_text.append(letter)
+
         else:
 
             for letter in self.add_many_ui.large_add_box.toPlainText():
                 user_text.append(letter)
+        # else:
+
 
         for letters in user_text:
             count += 1
@@ -506,10 +491,11 @@ class MainWindow(QMainWindow):
 
         current_words = self.ui.word_bank.selectedItems()
 
+        # print(current_words)
+
 
         # If the user didn't select a word than we don't
         # want to do anything.
-        # print(current_words)
         if current_words == []:
             pass
 
@@ -524,8 +510,11 @@ class MainWindow(QMainWindow):
 
             for word in current_words:
 
-                if word_list == "":
+                if word.text() in self.alphabet:
+                    pass      
 
+                    
+                elif word_list == "":
                     word_list+=word.text()
 
                 else:
@@ -536,9 +525,7 @@ class MainWindow(QMainWindow):
             self.del_ui.delete_label.setText(f"Warning: You are about to delete - {word_list}")
 
 
-
             self.del_ui.yes_del_button.clicked.connect(self.del_window_button)
-
             self.del_ui.cancel_del_button.clicked.connect(self.close_del_window_button)
 
 
@@ -546,7 +533,6 @@ class MainWindow(QMainWindow):
     def close_del_window_button(self):
 
         self.del_win.close()
-
 
 
     def del_window_button(self):
@@ -557,22 +543,18 @@ class MainWindow(QMainWindow):
         word_list = []
 
         for word in current_words:
-
             word_list.append(word.text())
 
         # self.ui.word_bank.takeItem(current_row)
 
         conn = sqlite3.connect('word_bank.db')
-
         cur = conn.cursor()
 
         #delete all selected words
         for words in word_list:
-
             delete_query = """DELETE FROM words_list WHERE word = ?"""
 
             cur.execute(delete_query, (words,))
-
 
         conn.commit()
         conn.close()
@@ -580,7 +562,6 @@ class MainWindow(QMainWindow):
         self.del_win.close()
 
         self.load_words()
-
 
 
 #*********************************************************************
@@ -605,8 +586,10 @@ class MainWindow(QMainWindow):
 
     def word_addition_definition(self, word):
 
+        #Retrieves the definition for the word
         word_def = dictionary.meaning(word)
         word_def_string = str(word_def)
+        
         conn = sqlite3.connect('word_bank.db')
         cur = conn.cursor()
 
@@ -632,23 +615,18 @@ class MainWindow(QMainWindow):
 #Ability to change settings.
 
     def settings_window(self):
-        # for i in self.font_database.families():
-        # print(self.font_database.styles("Cascadia Mono Light"))
-        # print(self.font_database.font('Wingdings','Regular',9))
-
-
-
 
         self.set_ui = Ui_Settings()
         self.set_ui.setupUi(self.set_win)
-        #need to set settings here so that the current settings are shown
+
+        #Retrieves fonts to choose from and adds them to the drop down object in the settings
         for fonts in self.font_database.families():
             self.set_ui.font_change.addItem(fonts)
 
-
-
         self.config.read("settings.ini")
         
+        #Following few lines allow for the settings to be the same way they set it up
+        #the next time the user goes back to look at them.
         if self.set_ui.alphabet_toggle.isChecked() != self.config.getboolean("User_Settings","user_alphabet"):
             self.set_ui.alphabet_toggle.setChecked(self.config.getboolean("User_Settings","user_alphabet"))
 
@@ -672,6 +650,8 @@ class MainWindow(QMainWindow):
     def save_settings(self):
         self.config.read("settings.ini")
 
+        #if any of the settings where changed and the user saved them than this will set those
+        #settings
         self.config["User_Settings"]["user_alphabet"]=str(self.set_ui.alphabet_toggle.isChecked())
         self.config["User_Settings"]["user_font_type"]=self.set_ui.font_change.currentText()
         self.config["User_Settings"]["user_font_size"]=str(self.set_ui.font_size.value())
@@ -679,7 +659,7 @@ class MainWindow(QMainWindow):
         with open("settings.ini", "w") as file:
             self.config.write(file)
 
-
+        #reloading the list lets the changes made to the settings be shown immediately 
         self.load_words()
 
         self.set_win.close()
@@ -688,6 +668,8 @@ class MainWindow(QMainWindow):
     def default_settings(self):
         self.config.read("settings.ini")
 
+        #the settings that are used are always the user ones, but we have default settings that
+        #the users revert back to by setting the user settings to the default settings.
         self.config["User_Settings"]["user_alphabet"]=str(self.config.getboolean("Default","default_alphabet"))
         self.config["User_Settings"]["user_font_type"]=self.config["Default"]["default_font_type"]
         self.config["User_Settings"]["user_font_size"]=self.config["Default"]["default_font_size"]
@@ -698,8 +680,6 @@ class MainWindow(QMainWindow):
         self.load_words()
         self.set_win.close()
 
-
-
     def close_settings(self):
         self.set_win.close()
 
@@ -708,8 +688,40 @@ class MainWindow(QMainWindow):
 
 #*********************************************************************
 #TODO#
-#Download and upload lists
+#Download and upload lists might be easiest to just make a txt file that can be written to and read by the program.
+    def download_database(self):
+        conn = sqlite3.connect('word_bank.db')
+        cur = conn.cursor()
+        cur.execute("SELECT word FROM words_list")
+        word_record = cur.fetchall()
+        conn.close()
 
+        save_name = QFileDialog.getSaveFileName(self, "Save File", "","Text (*.txt)")#learned you had to have the * from AI
+        try:#This is needed because unless I click save it crashes. I'm not sure why.
+            file_name = open(save_name[0],"w")
+            for words in word_record:
+                file_name.write(f"{words[0]},")
+        except:
+            pass
+        
+
+    def upload_file(self):
+        open_name = QFileDialog.getOpenFileName(self, "Open File", "","Text (*.txt)")
+
+        self.add_many_ui = Ui_add_many_window()
+
+        self.add_many_ui.setupUi(self.add_lar)
+
+        
+        with open(open_name[0], "r") as f:
+            file_lines = f.read()
+            for words in file_lines:
+                self.add_many_ui.large_add_box.insertPlainText(words)
+
+            self.add_single_or_many()
+
+
+        
 
 #*********************************************************************
 
@@ -742,16 +754,18 @@ class MainWindow(QMainWindow):
         self.ui.word_bank.clear()
 
 
-       
+        #add words to the visible list
         for record in word_record:
             self.ui.word_bank.addItem(record[0])
 
+            #applies the definition to the words tooltip
             for i in range(self.ui.word_bank.count()):
                 if self.ui.word_bank.item(i).text() == record[0]:
                     word_tip = self.ui.word_bank.item(i)
                     word_tip.setToolTip(f"{record[1]}")
 
 
+        #this is where the settings are applied to the application
         self.config.read("settings.ini")
         
         if self.config.getboolean("User_Settings","user_alphabet"):

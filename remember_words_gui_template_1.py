@@ -14,9 +14,18 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(291, 343)
+        MainWindow.resize(269, 320)
+        MainWindow.setMinimumSize(QtCore.QSize(0, 0))
+        MainWindow.setStyleSheet("MainWindow{\n"
+"background:\n"
+"}\n"
+"\n"
+"QLineEdit{\n"
+"border: 1px solid rgb(0,0,0);\n"
+"}")
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setStyleSheet("")
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -24,9 +33,12 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetMaximumSize)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.add_word_button = QtWidgets.QPushButton(self.centralwidget)
+        self.add_word_button.setMinimumSize(QtCore.QSize(75, 25))
+        self.add_word_button.setStyleSheet("")
         self.add_word_button.setObjectName("add_word_button")
         self.horizontalLayout.addWidget(self.add_word_button)
         self.remove_word_button = QtWidgets.QPushButton(self.centralwidget)
+        self.remove_word_button.setMinimumSize(QtCore.QSize(75, 25))
         self.remove_word_button.setObjectName("remove_word_button")
         self.horizontalLayout.addWidget(self.remove_word_button)
         self.search_bar = QtWidgets.QLineEdit(self.centralwidget)
@@ -46,13 +58,18 @@ class Ui_MainWindow(object):
         font.setFamily("Cascadia Mono Light")
         font.setPointSize(9)
         self.word_bank.setFont(font)
-        self.word_bank.setResizeMode(QtWidgets.QListView.Fixed)
-        self.word_bank.setGridSize(QtCore.QSize(0, 38))
+        self.word_bank.setStyleSheet("QListView{\n"
+"background:rgb(245, 242, 235)\n"
+"}\n"
+"\n"
+"")
+        self.word_bank.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerItem)
+        self.word_bank.setResizeMode(QtWidgets.QListView.Adjust)
         self.word_bank.setObjectName("word_bank")
         self.verticalLayout.addWidget(self.word_bank)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 291, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 269, 26))
         self.menuBar.setObjectName("menuBar")
         self.menuOptions = QtWidgets.QMenu(self.menuBar)
         self.menuOptions.setObjectName("menuOptions")
@@ -61,8 +78,11 @@ class Ui_MainWindow(object):
         self.actionSettings.setObjectName("actionSettings")
         self.actionDownload_Database = QtWidgets.QAction(MainWindow)
         self.actionDownload_Database.setObjectName("actionDownload_Database")
+        self.actionUpload_Database = QtWidgets.QAction(MainWindow)
+        self.actionUpload_Database.setObjectName("actionUpload_Database")
         self.menuOptions.addAction(self.actionSettings)
         self.menuOptions.addAction(self.actionDownload_Database)
+        self.menuOptions.addAction(self.actionUpload_Database)
         self.menuBar.addAction(self.menuOptions.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -77,3 +97,4 @@ class Ui_MainWindow(object):
         self.menuOptions.setTitle(_translate("MainWindow", "Options"))
         self.actionSettings.setText(_translate("MainWindow", "Settings"))
         self.actionDownload_Database.setText(_translate("MainWindow", "Download Database"))
+        self.actionUpload_Database.setText(_translate("MainWindow", "Upload Database"))
