@@ -712,14 +712,15 @@ class MainWindow(QMainWindow):
 
         self.add_many_ui.setupUi(self.add_lar)
 
-        
-        with open(open_name[0], "r") as f:
-            file_lines = f.read()
-            for words in file_lines:
-                self.add_many_ui.large_add_box.insertPlainText(words)
+        try:
+            with open(open_name[0], "r") as f:
+                file_lines = f.read()
+                for words in file_lines:
+                    self.add_many_ui.large_add_box.insertPlainText(words)
 
-            self.add_single_or_many()
-
+                self.add_single_or_many()
+        except:
+            pass
 
         
 
