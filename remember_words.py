@@ -84,10 +84,10 @@ class MainWindow(QMainWindow):
         self.add_lar = QtWidgets.QMainWindow()
         self.set_win = QtWidgets.QMainWindow()
 
-        self.add_win.setWindowIcon(QIcon('book_icon.png'))
-        self.del_win.setWindowIcon(QIcon('book_icon.png'))
-        self.add_lar.setWindowIcon(QIcon('book_icon.png'))
-        self.set_win.setWindowIcon(QIcon('book_icon.png'))
+        self.add_win.setWindowIcon(QIcon('book_icon.ico'))
+        self.del_win.setWindowIcon(QIcon('book_icon.ico'))
+        self.add_lar.setWindowIcon(QIcon('book_icon.ico'))
+        self.set_win.setWindowIcon(QIcon('book_icon.ico'))
 
 
         self.setAttribute(QtCore.Qt.WA_AlwaysShowToolTips, True)
