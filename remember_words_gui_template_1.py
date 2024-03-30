@@ -14,40 +14,43 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(269, 320)
+        MainWindow.resize(266, 206)
         MainWindow.setMinimumSize(QtCore.QSize(0, 0))
         MainWindow.setStyleSheet("MainWindow{\n"
 "background:\n"
 "}\n"
 "\n"
-"QLineEdit{\n"
-"border: 1px solid rgb(0,0,0);\n"
-"}")
+"\n"
+"")
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setStyleSheet("")
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setFrameShape(QtWidgets.QFrame.WinPanel)
+        self.frame.setObjectName("frame")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame)
         self.horizontalLayout.setSizeConstraint(QtWidgets.QLayout.SetMaximumSize)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.add_word_button = QtWidgets.QPushButton(self.centralwidget)
+        self.add_word_button = QtWidgets.QPushButton(self.frame)
         self.add_word_button.setMinimumSize(QtCore.QSize(75, 25))
         self.add_word_button.setStyleSheet("")
         self.add_word_button.setObjectName("add_word_button")
         self.horizontalLayout.addWidget(self.add_word_button)
-        self.remove_word_button = QtWidgets.QPushButton(self.centralwidget)
+        self.remove_word_button = QtWidgets.QPushButton(self.frame)
         self.remove_word_button.setMinimumSize(QtCore.QSize(75, 25))
         self.remove_word_button.setObjectName("remove_word_button")
         self.horizontalLayout.addWidget(self.remove_word_button)
-        self.search_bar = QtWidgets.QLineEdit(self.centralwidget)
+        self.search_bar = QtWidgets.QLineEdit(self.frame)
         self.search_bar.setText("")
         self.search_bar.setFrame(False)
         self.search_bar.setEchoMode(QtWidgets.QLineEdit.Normal)
         self.search_bar.setObjectName("search_bar")
         self.horizontalLayout.addWidget(self.search_bar)
-        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.verticalLayout.addWidget(self.frame)
         self.word_bank = QtWidgets.QListWidget(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -63,13 +66,14 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "")
+        self.word_bank.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.word_bank.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerItem)
         self.word_bank.setResizeMode(QtWidgets.QListView.Adjust)
         self.word_bank.setObjectName("word_bank")
         self.verticalLayout.addWidget(self.word_bank)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 269, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 266, 26))
         self.menuBar.setObjectName("menuBar")
         self.menuOptions = QtWidgets.QMenu(self.menuBar)
         self.menuOptions.setObjectName("menuOptions")

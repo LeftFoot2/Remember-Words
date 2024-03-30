@@ -26,8 +26,9 @@ from configparser import ConfigParser
 # 
 #BUG#the following are a few known bugs
 #hovering over words does not give the definitions for newly added words unto the list is reloaded
-#same with words that have been filtered out
 #
+#definitions are not added when offline. if a word is added offline than it will have the None definition even after connecting to the internet
+#try and fix that
 #
 
 
@@ -69,14 +70,15 @@ class MainWindow(QMainWindow):
 
         super(MainWindow, self).__init__()
 
-
+        
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.setWindowIcon(QIcon('book_icon.png'))
+        self.setWindowIcon(QIcon('book_icon.ico'))
 
 
         self.setWindowFlag(Qt.WindowStaysOnTopHint) #Makes the main window stay on top even after clicking off of it. This is essential because without it we wouldn't be able to see it when spelling.
+
         self.add_win = QtWidgets.QMainWindow()
         self.del_win = QtWidgets.QMainWindow()
         self.add_lar = QtWidgets.QMainWindow()
@@ -86,7 +88,10 @@ class MainWindow(QMainWindow):
         self.del_win.setWindowIcon(QIcon('book_icon.png'))
         self.add_lar.setWindowIcon(QIcon('book_icon.png'))
         self.set_win.setWindowIcon(QIcon('book_icon.png'))
-           
+
+
+        self.setAttribute(QtCore.Qt.WA_AlwaysShowToolTips, True)
+
 
         #Listens for keyboard interaction from the user.
 
@@ -138,11 +143,50 @@ class MainWindow(QMainWindow):
         self.ui.actionDownload_Database.triggered.connect(self.download_database)
         self.ui.actionUpload_Database.triggered.connect(self.upload_file)
 
+        # self.contextMenuPolicy()
 
+
+        self.ui.word_bank.setContextMenuPolicy(Qt.ActionsContextMenu)
+        self.ui.menuBar.setContextMenuPolicy(Qt.ActionsContextMenu)
+        self.ui.frame.setContextMenuPolicy(Qt.ActionsContextMenu)
+
+        self.reduce_action = QAction("Hide buttons and menu", self)
+        self.expand_action = QAction("Show buttons and menu", self)
+        self.reduce_action.triggered.connect(self.reduce_size)
+        self.expand_action.triggered.connect(self.expand_size)
+        self.ui.word_bank.addAction(self.expand_action)
+        self.ui.word_bank.addAction(self.reduce_action)
+
+        self.hide_menu = QAction("Hide Menu", self)
+        self.hide_menu.triggered.connect(self.hide_menu_bar)
+        self.ui.menuBar.addAction(self.hide_menu)
+        
+        self.hide_frame = QAction("Hide buttons", self)
+        self.hide_frame.triggered.connect(self.hide_frame_fun)
+        self.ui.frame.addAction(self.hide_frame)
 
         # Load the words in from the word bank to the screen
         self.load_words()
 
+
+
+
+    def hide_menu_bar(self):
+        self.ui.menuBar.hide()
+
+    def hide_frame_fun(self):
+        self.ui.frame.hide()
+
+
+    def reduce_size(self):
+
+        self.hide_menu_bar()
+        self.hide_frame_fun()
+
+
+    def expand_size(self):
+        self.ui.menuBar.show()
+        self.ui.frame.show()
 
 
 
@@ -181,10 +225,11 @@ class MainWindow(QMainWindow):
 
         conn = sqlite3.connect('word_bank.db')
         cur = conn.cursor()
-        cur.execute("SELECT word FROM words_list")
+        cur.execute("SELECT * FROM words_list")
         word_record = cur.fetchall()   
         conn.close()
         self.ui.word_bank.clear()
+
         search_list = []
 
         if key.isalpha():
@@ -195,7 +240,7 @@ class MainWindow(QMainWindow):
             input_string = input_string[:-1]
 
         for record in word_record:
-            search_list.append(record[0]) 
+            search_list.append((record[0],record[1])) 
 
         if input_string == "":
             self.ui.word_bank.clear()
@@ -206,10 +251,14 @@ class MainWindow(QMainWindow):
     def filter_inputs(self, search_list, input_string):
         
 
-        for word in search_list:
+        for word, definition in search_list:
            
             if re.match(input_string, word, re.IGNORECASE): 
-                self.ui.word_bank.addItem(word) 
+                self.ui.word_bank.addItem(word)
+                for i in range(self.ui.word_bank.count()):
+                    if self.ui.word_bank.item(i).text() == word:
+                        word_tip = self.ui.word_bank.item(i)
+                        word_tip.setToolTip(definition)
 
 
         if len(self.ui.word_bank) == 0:
@@ -246,7 +295,8 @@ class MainWindow(QMainWindow):
         word_record = cur.fetchall()
         conn.close()
         self.ui.word_bank.clear()
-        search_list =[]
+        search_list = []
+        def_list = []
 
         #This is what we get from the word_record. It is here to help me understand the
         #how to work with it.
@@ -254,8 +304,8 @@ class MainWindow(QMainWindow):
         # print(word_record)
         for record in word_record:
             
-            search_list.append(record[0]) # Gets the word out of the tuple and makes a list of strings 
-
+            search_list.append((record[0],record[1])) # Gets the word out of the tuple and makes a list of strings 
+            # def_list.append()
 
 
         search_reset = ["!","?",".",",",'"'," "]
@@ -274,16 +324,18 @@ class MainWindow(QMainWindow):
 
             self.load_words()
         else:
-            self.filtering(search_list)
+            self.filtering(search_list,def_list)
 
     #This is the brains of the search bar 
 
-    def filtering(self, search_list):
+    def filtering(self, search_list, def_list):
         
 
-        for word in search_list:
+        for word, definition in search_list:
             # print(f'in filter {type(word)}')
 
+            print(word)
+            print(definition)
 
 
             #TODO#
@@ -292,7 +344,13 @@ class MainWindow(QMainWindow):
 
             if re.match(self.ui.search_bar.text(), word, re.IGNORECASE): #The re library's match starts from the beginning of the word and matches it, in this case, to what is in the search bar.
 
+
                 self.ui.word_bank.addItem(word)
+                for i in range(self.ui.word_bank.count()):
+                    if self.ui.word_bank.item(i).text() == word:
+                        word_tip = self.ui.word_bank.item(i)
+                        word_tip.setToolTip(definition)
+                # self.ui.word_bank.setToolTip(definition)
 
 
 
@@ -387,8 +445,11 @@ class MainWindow(QMainWindow):
             #To add many words I separated the the words into individual letters.
             #Since I combined both the many and the single addition functions
             #I need to treat the single as the same.
+
             for letter in self.add_ui.add_word_line.text():
                 user_text.append(letter)
+                if letter == " ":
+                    break
 
         else:
 
@@ -444,7 +505,7 @@ class MainWindow(QMainWindow):
                     #the definition needs to be updated. This is done in separate threads because
                     #the manner of getting the definitions is slow and would cause the user to experience
                     #a great deal of lag.
-                    'definition': ""
+                    'definition': "No definition"
                 }
                 )
                 self.ui.word_bank.addItem(add_words)
@@ -587,8 +648,10 @@ class MainWindow(QMainWindow):
     def word_addition_definition(self, word):
 
         #Retrieves the definition for the word
+        
         word_def = dictionary.meaning(word)
         word_def_string = str(word_def)
+
         
         conn = sqlite3.connect('word_bank.db')
         cur = conn.cursor()
@@ -754,6 +817,8 @@ class MainWindow(QMainWindow):
         #May take out in final.
         self.ui.word_bank.clear()
 
+        def_word_thread_list = []
+
 
         #add words to the visible list
         for record in word_record:
@@ -765,6 +830,13 @@ class MainWindow(QMainWindow):
                     word_tip = self.ui.word_bank.item(i)
                     word_tip.setToolTip(f"{record[1]}")
 
+                    if record[1] == "Reload with internet":
+
+                        thread = threading.Thread(target=self.word_addition_definition, args=(record[0],))
+                        def_word_thread_list.append(thread)
+
+        for threads in def_word_thread_list:
+            threads.start()
 
         #this is where the settings are applied to the application
         self.config.read("settings.ini")
