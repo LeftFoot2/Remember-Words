@@ -48,9 +48,6 @@
   ('importlib',
    'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\__init__.py',
    'PYMODULE'),
-  ('importlib.machinery',
-   'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\machinery.py',
-   'PYMODULE'),
   ('importlib._bootstrap_external',
    'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\_bootstrap_external.py',
    'PYMODULE'),
@@ -176,6 +173,9 @@
    'PYMODULE'),
   ('importlib._abc',
    'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\_abc.py',
+   'PYMODULE'),
+  ('importlib.machinery',
+   'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\machinery.py',
    'PYMODULE'),
   ('contextlib',
    'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\contextlib.py',
@@ -505,11 +505,11 @@
   ('_py_abc',
    'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\_py_abc.py',
    'PYMODULE'),
-  ('tracemalloc',
-   'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tracemalloc.py',
-   'PYMODULE'),
   ('stringprep',
    'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\stringprep.py',
+   'PYMODULE'),
+  ('tracemalloc',
+   'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tracemalloc.py',
    'PYMODULE'),
   ('configparser',
    'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\configparser.py',
@@ -1215,6 +1215,9 @@
   ('sqlite3.dbapi2',
    'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\sqlite3\\dbapi2.py',
    'PYMODULE'),
+  ('definitionWindow',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior Project\\definitionWindow.py',
+   'PYMODULE'),
   ('settings_remember_words',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\settings_remember_words.py',
@@ -1267,41 +1270,57 @@
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\styles\\qwindowsvistastyle.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\platforms\\qwebgl.dll',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qwebgl.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\platforms\\qminimal.dll',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qminimal.dll',
-   'BINARY'),
   ('PyQt5\\Qt5\\plugins\\imageformats\\qgif.dll',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qgif.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qwebp.dll',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qwebp.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\platforms\\qwebgl.dll',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qwebgl.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\imageformats\\qjpeg.dll',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qjpeg.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
+  ('PyQt5\\Qt5\\plugins\\platforms\\qminimal.dll',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qminimal.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\platforms\\qwindows.dll',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qwindows.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\imageformats\\qtiff.dll',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
@@ -1311,25 +1330,9 @@
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qoffscreen.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\platforms\\qwindows.dll',
+  ('PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qwindows.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qwebp.dll',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qwebp.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
    'BINARY'),
   ('_decimal.pyd',
    'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\DLLs\\_decimal.pyd',
@@ -1432,21 +1435,21 @@
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5DBus.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\Qt5WebSockets.dll',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5WebSockets.dll',
-   'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Network.dll',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Network.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\Qt5Quick.dll',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Quick.dll',
-   'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Svg.dll',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Svg.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\bin\\Qt5WebSockets.dll',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5WebSockets.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\bin\\Qt5Quick.dll',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Quick.dll',
    'BINARY'),
   ('libcrypto-3.dll',
    'C:\\Users\\madmo\\AppData\\Local\\Programs\\Python\\Python311\\DLLs\\libcrypto-3.dll',
@@ -1467,13 +1470,13 @@
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\MSVCP140_1.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\Qt5Qml.dll',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Qml.dll',
-   'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5QmlModels.dll',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5QmlModels.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\bin\\Qt5Qml.dll',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Qml.dll',
    'BINARY')],
  [],
  [],
@@ -1481,261 +1484,205 @@
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\build\\remember_words\\base_library.zip',
    'DATA'),
-  ('certifi\\py.typed',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\certifi\\py.typed',
-   'DATA'),
   ('certifi\\cacert.pem',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\certifi\\cacert.pem',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ja.qm',
+  ('certifi\\py.typed',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ja.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_sv.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sv.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_sl.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_bg.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_bg.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_fr.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ca.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ca.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_da.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_da.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_fr.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_pl.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ca.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ca.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_pl.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_pl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_fa.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fa.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_cs.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_cs.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ar.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ar.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_en.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_en.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_uk.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_uk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_lv.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_lv.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_uk.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_uk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_sk.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_sk.qm',
+   'Project\\venv\\Lib\\site-packages\\certifi\\py.typed',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_sl.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sl.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_tr.qm',
+  ('PyQt5\\Qt5\\translations\\qt_help_da.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_tr.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_da.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ko.qm',
+  ('PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ko.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_es.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_es.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_it.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_it.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_de.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_de.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_en.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_en.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_cs.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_cs.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_fr.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_fr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ru.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ru.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_es.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_es.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_fi.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fi.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_da.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_da.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_gl.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_gl.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_pt.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pt.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ar.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ar.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ja.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ja.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_he.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_he.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ru.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ru.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_tr.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_tr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_it.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_it.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_hu.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_hu.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_de.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_de.qm',
-   'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_help_es.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_es.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_it.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_bg.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_it.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_gd.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gd.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ko.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ko.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_hu.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_hu.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_uk.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_uk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_gd.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_gd.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_hu.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_hu.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_bg.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_bg.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ko.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ko.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_bg.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qtbase_cs.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_cs.qm',
    'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ca.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ca.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_fr.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_bg.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_bg.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ko.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ko.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ja.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ja.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_hu.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_hu.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ca.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ca.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_es.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_es.qm',
+   'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_help_pl.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_pl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ru.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ru.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_en.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_en.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_cs.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_cs.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_gd.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_gd.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_uk.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_uk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_da.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_da.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_fi.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fi.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_gl.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_hu.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_hu.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_tr.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_tr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_tr.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_tr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_fr.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fr.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_help_sk.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sk.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_lt.qm',
+  ('PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lt.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_it.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_it.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_da.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_da.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_he.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_he.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_bg.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_bg.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_da.qm',
+  ('PyQt5\\Qt5\\translations\\qt_help_it.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_da.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_it.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_gd.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gd.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_sl.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_hu.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_hu.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_en.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_en.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_lt.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lt.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_de.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_de.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_tr.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_tr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ru.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ru.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_sv.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sv.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_cs.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_cs.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ar.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ar.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_lv.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
@@ -1745,47 +1692,103 @@
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sk.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
+  ('PyQt5\\Qt5\\translations\\qt_ar.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ar.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_uk.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_uk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_de.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_de.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_it.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_it.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_de.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_de.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_en.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_en.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_fa.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fa.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_es.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_es.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_sk.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_sk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_fr.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_fr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ko.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ko.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qtbase_fi.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fi.qm',
    'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ar.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ar.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_pl.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_gl.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_gl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ca.qm',
+   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ca.qm',
+   'DATA'),
   ('PyQt5\\Qt5\\translations\\qtbase_ja.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
    'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ja.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_en.qm',
+  ('PyQt5\\Qt5\\translations\\qt_help_uk.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_en.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_uk.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_he.qm',
+  ('PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_he.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_de.qm',
+  ('PyQt5\\Qt5\\translations\\qt_ja.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_de.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ja.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+  ('PyQt5\\Qt5\\translations\\qt_ko.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ko.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_tr.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_he.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_tr.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_he.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ca.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_lv.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ca.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_lv.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ar.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_pl.qm',
    'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ar.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_gl.qm',
-   'C:\\Users\\madmo\\OneDrive\\Desktop\\Senior '
-   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gl.qm',
+   'Project\\venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_pl.qm',
    'DATA')])

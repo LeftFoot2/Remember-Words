@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(266, 206)
+        MainWindow.resize(261, 224)
         MainWindow.setMinimumSize(QtCore.QSize(0, 0))
         MainWindow.setStyleSheet("MainWindow{\n"
 "background:\n"
@@ -73,7 +73,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.word_bank)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 266, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 261, 26))
         self.menuBar.setObjectName("menuBar")
         self.menuOptions = QtWidgets.QMenu(self.menuBar)
         self.menuOptions.setObjectName("menuOptions")
@@ -84,9 +84,12 @@ class Ui_MainWindow(object):
         self.actionDownload_Database.setObjectName("actionDownload_Database")
         self.actionUpload_Database = QtWidgets.QAction(MainWindow)
         self.actionUpload_Database.setObjectName("actionUpload_Database")
+        self.actionAdd_Definitions = QtWidgets.QAction(MainWindow)
+        self.actionAdd_Definitions.setObjectName("actionAdd_Definitions")
         self.menuOptions.addAction(self.actionSettings)
         self.menuOptions.addAction(self.actionDownload_Database)
         self.menuOptions.addAction(self.actionUpload_Database)
+        self.menuOptions.addAction(self.actionAdd_Definitions)
         self.menuBar.addAction(self.menuOptions.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -102,3 +105,4 @@ class Ui_MainWindow(object):
         self.actionSettings.setText(_translate("MainWindow", "Settings"))
         self.actionDownload_Database.setText(_translate("MainWindow", "Download Database"))
         self.actionUpload_Database.setText(_translate("MainWindow", "Upload Database"))
+        self.actionAdd_Definitions.setText(_translate("MainWindow", "Add Definitions"))

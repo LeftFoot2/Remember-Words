@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>266</width>
-    <height>206</height>
+    <width>261</width>
+    <height>224</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -36,7 +36,7 @@ background:
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QFrame" name="">
+     <widget class="QFrame" name="frame">
       <property name="frameShape">
        <enum>QFrame::WinPanel</enum>
       </property>
@@ -143,7 +143,7 @@ background:rgb(245, 242, 235)
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>266</width>
+     <width>261</width>
      <height>26</height>
     </rect>
    </property>
@@ -154,6 +154,7 @@ background:rgb(245, 242, 235)
     <addaction name="actionSettings"/>
     <addaction name="actionDownload_Database"/>
     <addaction name="actionUpload_Database"/>
+    <addaction name="actionAdd_Definitions"/>
    </widget>
    <addaction name="menuOptions"/>
   </widget>
@@ -170,6 +171,11 @@ background:rgb(245, 242, 235)
   <action name="actionUpload_Database">
    <property name="text">
     <string>Upload Database</string>
+   </property>
+  </action>
+  <action name="actionAdd_Definitions">
+   <property name="text">
+    <string>Add Definitions</string>
    </property>
   </action>
  </widget>
