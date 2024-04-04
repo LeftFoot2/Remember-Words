@@ -11,7 +11,6 @@ from definitionWindow import Ui_definitionWindow
 import sys
 import sqlite3
 import re
-import os
 from pynput import keyboard, mouse
 import threading
 import time
@@ -22,32 +21,24 @@ from configparser import ConfigParser
 
 
 #TODO#
-# 
 #
 # 
 #BUG#the following are a few known bugs
-#hovering over words does not give the definitions for newly added words unto the list is reloaded
 #
-#definitions are not added when offline. if a word is added offline than it will have the None definition even after connecting to the internet
-#try and fix that
 #
-
-
-
-
+#
+#
 
 
 dictionary = PyDictionary()
-# print(dictionary.printMeanings())
-
-
 
 input_string = ""
 
 #######
-
-# Note about the exe. I will need to clear it with companies to allow it to not be flagged as a virus.
-# This is annoying because it isn't but it seems like a common problem at least with using pyinstaller.
+# If you want to download this there is a zip file on the github called _download_file.zip.
+# Download that and than extract all. You should have access now. The first time you run it
+# Windows may say that it is unsafe, but you can run it anyways and be fine I'm just an unknown
+# programmer at this point.
 ######
 
 
@@ -71,7 +62,7 @@ class MainWindow(QMainWindow):
 
         super(MainWindow, self).__init__()
 
-        
+        #This grabs the ui information from the ui file and allows us to access the buttons and other attributes of the 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
@@ -95,19 +86,23 @@ class MainWindow(QMainWindow):
 
         self.setAttribute(QtCore.Qt.WA_AlwaysShowToolTips, True)
 
-
+        
         #Listens for keyboard interaction from the user.
 
-        listener = keyboard.Listener(on_press=self.on_press)
-        listener.start()
 
-        mlistener = mouse.Listener(on_click=self.on_click)
-        mlistener.start()
- 
+
+
+
+        self.listener = keyboard.Listener(on_press=self.on_press)
+        self.listener.start()
+
+        self.mlistener = mouse.Listener(on_click=self.on_click)
+        self.mlistener.start()
+
 
         self.ui.word_bank.itemDoubleClicked.connect(self.text_to_speech)
 
-        self.alphabet = ["a__________","b__________","c__________","d__________","e__________","f__________","g__________","h__________","i__________","j__________","k__________","l__________","m__________","n__________","o__________","p__________","q__________","r__________","s__________","t__________","u__________","v__________","w__________","x__________","y__________","z__________"]
+        self.alphabet = ["A ","B ","C ","D ","E ","F ","G ","H ","I ","J ","K ","L ","M ","N ","O ","P ","Q ","R ","S ","T ","U ","V ","W ","X ","Y ","Z "]
 
         # self.alphabet_input_filter = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
         self.new_word_indicators = ["~","`","!","@","#","$","%","^","&","*","(",")","+","=","/","Key.tab","Key.space","Key.left","Key.up","Key.down","Key.right","Key.enter","Key.home","Key.end","Key.page_up","Key.page_down","<",">",",",".","?","\\",":",";",'"',"[","]","{","}","|"]
@@ -116,7 +111,7 @@ class MainWindow(QMainWindow):
         self.font_database = QFontDatabase()
         self.new_font = QFont()
 
-        #Creates and ini file that will hold settings information. Only runs for first run of the program.
+        #Creates and ini file that will hold settings information. Only runs for first run of the program.aaaa
         try:
             self.config.read("settings.ini")
             self.config.getboolean("Default","default_alphabet")
@@ -204,16 +199,15 @@ class MainWindow(QMainWindow):
 
     def on_press(self,key):
 
+
         if not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow() and not self.set_win.isActiveWindow():
 
 
             new_key = str(key).strip("'")
 
 
-            # print(new_key)
 
-
-            if new_key.isalpha():#lower() in self.alphabet_input_filter:
+            if new_key.isalpha():
                 self.filter_outside_letters(new_key)
 
             elif new_key in self.new_word_indicators:
@@ -224,6 +218,8 @@ class MainWindow(QMainWindow):
 
 
     def filter_outside_letters(self, key):
+        
+
 
         global input_string
 
@@ -245,6 +241,7 @@ class MainWindow(QMainWindow):
 
         for record in word_record:
             search_list.append((record[0],record[1])) 
+
 
         if input_string == "":
             self.ui.word_bank.clear()
@@ -269,9 +266,14 @@ class MainWindow(QMainWindow):
             self.ui.word_bank.addItem("No results found.")
 
     def on_click(self,x, y, button, pressed):
-        if not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow() and not self.set_win.isActiveWindow():
+
+        if self.isActiveWindow():
+            pass
             
-            if str(button) == "Button.left":   
+        elif not pressed and not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow() and not self.set_win.isActiveWindow():
+
+            if str(button) == "Button.left":
+                
                 self.filter_outside_letters("")
 
             elif str(button) == "Button.right":
@@ -279,7 +281,7 @@ class MainWindow(QMainWindow):
 
             else:
                 pass
-    
+
 #**********************************************************************
 
 
@@ -302,14 +304,10 @@ class MainWindow(QMainWindow):
         search_list = []
         def_list = []
 
-        #This is what we get from the word_record. It is here to help me understand the
-        #how to work with it.
-        # word_record = ('aaaaaaaaaaaaaaaaaaaaa',), ('bat',), ('cat',), ('rat',), ('sat',), ('mat',), ('darn',)
-        # print(word_record)
+
         for record in word_record:
             
             search_list.append((record[0],record[1])) # Gets the word and definition out of the tuple and makes a list of strings 
-            # def_list.append()
 
 
         search_reset = ["!","?",".",",",'"'," ","\\"]
@@ -336,15 +334,9 @@ class MainWindow(QMainWindow):
         
 
         for word, definition in search_list:
-            # print(f'in filter {type(word)}')
-
-            # print(word)
-            # print(definition)
-
 
             #TODO#
-
-            #re.fullmatch(pattern, string, flags=0) potintaly use to determian if the whole word was spelled.
+            #it would be cool to be able to register if the whole word was spelled correctly. This would likely be for use of gamifying the app.
 
             if re.match(self.ui.search_bar.text(), word, re.IGNORECASE): #The re library's match starts from the beginning of the word and matches it, in this case, to what is in the search bar.
 
@@ -453,6 +445,7 @@ class MainWindow(QMainWindow):
 
             for letter in self.add_ui.add_word_line.text():
                 user_text.append(letter)
+
                 if letter == " ":
                     break
 
@@ -460,8 +453,11 @@ class MainWindow(QMainWindow):
 
             for letter in self.add_many_ui.large_add_box.toPlainText():
                 user_text.append(letter)
-        # else:
 
+
+
+
+        
 
         for letters in user_text:
             count += 1
@@ -471,6 +467,7 @@ class MainWindow(QMainWindow):
                 word += letters
                 #the count will equal the user_text aka the word when all the letters are added to the word string.
                 if count == len(user_text):
+
                     user_words.append(word)
             else:
                 if word == "":
@@ -479,12 +476,13 @@ class MainWindow(QMainWindow):
                     user_words.append(word)
                     word = ""
 
-
+        # print(len(user_words))
+        
 
         conn = sqlite3.connect('word_bank.db')
 
         cur = conn.cursor()
-        
+
 
         for add_words in user_words:
             dup = False
@@ -499,10 +497,13 @@ class MainWindow(QMainWindow):
                 dup_list.append(record[0])
 
             for word in dup_list:
-                if word.lower() == add_words.lower():
+                if word.lower().strip() == add_words.lower().strip():
                     dup = True
 
             if not dup:
+
+                if len(add_words) == 1:
+                        add_words += "  "
 
                 #inserting the word and a blank definition into the database
                 cur.execute("INSERT INTO words_list VALUES (:word, :definition)",
@@ -926,10 +927,13 @@ class MainWindow(QMainWindow):
         
         if self.config.getboolean("User_Settings","user_alphabet"):
             self.ui.word_bank.addItems(self.alphabet)
+            
 
         self.new_font.setFamily(self.config["User_Settings"]["user_font_type"])
         self.new_font.setPointSize(int(self.config["User_Settings"]["user_font_size"]))
         self.ui.word_bank.setFont(self.new_font)
+
+
 
         self.ui.word_bank.sortItems()
         
