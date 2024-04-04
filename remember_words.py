@@ -2,12 +2,14 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import QtWidgets, QtCore
-from remember_words_gui_template_1 import Ui_MainWindow
-from add_word_window_1 import Ui_add_word_window
-from remove_word_window import Ui_remove_word_window
-from add_large_window import Ui_add_many_window
-from settings_remember_words import Ui_Settings
-from definitionWindow import Ui_definitionWindow
+
+from app_windows.remember_words_gui_template_1 import Ui_MainWindow
+from app_windows.add_word_window_1 import Ui_add_word_window
+from app_windows.remove_word_window import Ui_remove_word_window
+from app_windows.add_large_window import Ui_add_many_window
+from app_windows.settings_remember_words import Ui_Settings
+from app_windows.definition_window import Ui_definition_window
+
 import sys
 import sqlite3
 import re
@@ -104,7 +106,6 @@ class MainWindow(QMainWindow):
 
         self.alphabet = ["A ","B ","C ","D ","E ","F ","G ","H ","I ","J ","K ","L ","M ","N ","O ","P ","Q ","R ","S ","T ","U ","V ","W ","X ","Y ","Z "]
 
-        # self.alphabet_input_filter = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
         self.new_word_indicators = ["~","`","!","@","#","$","%","^","&","*","(",")","+","=","/","Key.tab","Key.space","Key.left","Key.up","Key.down","Key.right","Key.enter","Key.home","Key.end","Key.page_up","Key.page_down","<",">",",",".","?","\\",":",";",'"',"[","]","{","}","|"]
 
         self.config = ConfigParser()
@@ -646,7 +647,7 @@ class MainWindow(QMainWindow):
 
     def show_def_win(self):
 
-        self.def_ui = Ui_definitionWindow()
+        self.def_ui = Ui_definition_window()
         self.def_ui.setupUi(self.def_win)
 
 
