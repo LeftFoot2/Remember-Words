@@ -26,3 +26,9 @@ You can also hide the options bar and the bar with the buttons so the app takes 
 
 1. Change the color of the letters as they are typed correctly. This would help the user keep track where they are at when they are looking at the word.
 2. 'Gameify' it. Make it so that there are rewards for typing out words that you have in your list.
+3. Add more setting that the user can change.
+
+
+## Main Features Used
+
+I mainly used PYQT5 and VSCode to get this project working. I also used several other modules that you can take a look at in the remember_words py document.
