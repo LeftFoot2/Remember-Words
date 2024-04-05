@@ -20,6 +20,9 @@ import pyttsx3
 from PyDictionary import PyDictionary
 from configparser import ConfigParser
 
+import termcolor
+
+
 
 
 #TODO#
@@ -35,6 +38,7 @@ from configparser import ConfigParser
 dictionary = PyDictionary()
 
 input_string = ""
+changeable_list = []
 
 #######
 # If you want to download this there is a zip file on the github called _download_file.zip.
@@ -70,15 +74,18 @@ class MainWindow(QMainWindow):
 
         self.setWindowIcon(QIcon('book_icon.ico'))
 
-
         self.setWindowFlag(Qt.WindowStaysOnTopHint) #Makes the main window stay on top even after clicking off of it. This is essential because without it we wouldn't be able to see it when spelling.
 
+
+        #I set up the window widgets here so I can use the attributes of the windows throughout the code.
         self.add_win = QtWidgets.QMainWindow()
         self.del_win = QtWidgets.QMainWindow()
         self.add_lar = QtWidgets.QMainWindow()
         self.set_win = QtWidgets.QMainWindow()
         self.def_win = QtWidgets.QMainWindow()
 
+        #Setting the window icons to be the image of the book. If you look at the picture of the book
+        #you will get a ruff estimate of my drawing skill... so not great.
         self.add_win.setWindowIcon(QIcon('book_icon.ico'))
         self.del_win.setWindowIcon(QIcon('book_icon.ico'))
         self.add_lar.setWindowIcon(QIcon('book_icon.ico'))
@@ -86,15 +93,10 @@ class MainWindow(QMainWindow):
         self.def_win.setWindowIcon(QIcon('book_icon.ico'))
 
 
-        self.setAttribute(QtCore.Qt.WA_AlwaysShowToolTips, True)
+        self.setAttribute(QtCore.Qt.WA_AlwaysShowToolTips, True) #Window stays on top
 
         
-        #Listens for keyboard interaction from the user.
-
-
-
-
-
+        #Listens for keyboard and mouse interaction from the user.
         self.listener = keyboard.Listener(on_press=self.on_press)
         self.listener.start()
 
@@ -102,11 +104,13 @@ class MainWindow(QMainWindow):
         self.mlistener.start()
 
 
+        #Activates when user double clicks a word in the list.
         self.ui.word_bank.itemDoubleClicked.connect(self.text_to_speech)
+
 
         self.alphabet = ["A ","B ","C ","D ","E ","F ","G ","H ","I ","J ","K ","L ","M ","N ","O ","P ","Q ","R ","S ","T ","U ","V ","W ","X ","Y ","Z "]
 
-        self.new_word_indicators = ["~","`","!","@","#","$","%","^","&","*","(",")","+","=","/","Key.tab","Key.space","Key.left","Key.up","Key.down","Key.right","Key.enter","Key.home","Key.end","Key.page_up","Key.page_down","<",">",",",".","?","\\",":",";",'"',"[","]","{","}","|"]
+        self.new_word_indicators = ["~","`","!","@","#","$","%","^","&","*","(",")","+","=","/","Key.tab","Key.space","Key.up","Key.down","Key.enter","Key.home","Key.end","Key.page_up","Key.page_down","<",">",",",".","?","\\",":",";",'"',"[","]","{","}","|"]
 
         self.config = ConfigParser()
         self.font_database = QFontDatabase()
@@ -133,8 +137,8 @@ class MainWindow(QMainWindow):
 
         self.ui.word_bank.setSelectionMode(QAbstractItemView.ExtendedSelection)  
 
-        # Buttons clicked
 
+        # Buttons clicked
         self.ui.add_word_button.clicked.connect(self.add_word)
         self.ui.remove_word_button.clicked.connect(self.remove_word)
         self.ui.search_bar.textEdited.connect(self.search)
@@ -142,7 +146,6 @@ class MainWindow(QMainWindow):
         self.ui.actionDownload_Database.triggered.connect(self.download_database)
         self.ui.actionUpload_Database.triggered.connect(self.upload_file)
         self.ui.actionAdd_Definitions.triggered.connect(self.show_def_win)
-
 
 
         # Right click actions
@@ -165,29 +168,30 @@ class MainWindow(QMainWindow):
         self.hide_frame.triggered.connect(self.hide_frame_fun)
         self.ui.frame.addAction(self.hide_frame)
 
+
         # Load the words in from the word bank to the screen
         self.load_words()
 
 
 
-
+#*********************************************************************
+#These functions are made so that the user can have greater flexibility
+#of the size of the window by hiding or showing parts of it.
     def hide_menu_bar(self):
         self.ui.menuBar.hide()
 
     def hide_frame_fun(self):
         self.ui.frame.hide()
 
-
     def reduce_size(self):
-
         self.hide_menu_bar()
         self.hide_frame_fun()
-
 
     def expand_size(self):
         self.ui.menuBar.show()
         self.ui.frame.show()
 
+#*********************************************************************
 
 
 #*********************************************************************
@@ -200,29 +204,30 @@ class MainWindow(QMainWindow):
 
     def on_press(self,key):
 
-
-        if not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow() and not self.set_win.isActiveWindow():
-
+        if not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow() and not self.set_win.isActiveWindow() and not self.def_win.isActiveWindow():
 
             new_key = str(key).strip("'")
 
+            word_changes = ["Key.backspace","Key.left","Key.right","Key.delete"]
 
-
+            #We want to send the keyboard input to the filter_outside letters function
+            #and want to different things based on what is pressed.
             if new_key.isalpha():
                 self.filter_outside_letters(new_key)
 
             elif new_key in self.new_word_indicators:
                 self.filter_outside_letters("")
+                
+            elif new_key in word_changes:
+                self.filter_outside_letters(new_key)
 
-            elif new_key == "Key.backspace":
-                self.filter_outside_letters("Key.backspace")
 
 
     def filter_outside_letters(self, key):
-        
-
-
+ 
+        #I use global variables because I don't want these variables to change every time I call the function.
         global input_string
+        global changeable_list
 
         conn = sqlite3.connect('word_bank.db')
         cur = conn.cursor()
@@ -233,13 +238,41 @@ class MainWindow(QMainWindow):
 
         search_list = []
 
+        
+
+        #Here we are trying to track what was typed by the user.
+        #If it is a letter than we want to track it.
         if key.isalpha():
             input_string += key
+
+        #Reset the globals for new word
         elif key == "":
             input_string = ""
+            changeable_list = []
+
+        #If there is a backspace we need to just remove the letter
         elif key == "Key.backspace":
             input_string = input_string[:-1]
 
+        #If left arrow than we need to save that letter it just went past and then delete it from the global string
+        elif key == "Key.left":
+            if input_string != "":
+                changeable_list.append(input_string[-1])
+                input_string = input_string[:-1]
+
+        #If right arrow we need to take the last of the list which will be the most resent one pasted by the left and add it back onto the string
+        elif key == "Key.right":
+            if changeable_list != []:
+                removed_letter = changeable_list.pop()
+                input_string += removed_letter
+
+        #If the delete we want to get red of the last letter added by going left.
+        elif key == "Key.delete":
+            if changeable_list != []:
+                removed_letter = changeable_list.pop()
+                
+
+            
         for record in word_record:
             search_list.append((record[0],record[1])) 
 
@@ -250,19 +283,21 @@ class MainWindow(QMainWindow):
         else:
             self.filter_inputs(search_list,input_string)
       
+
     def filter_inputs(self, search_list, input_string):
-        
 
         for word, definition in search_list:
-           
+            #If the string that has been typed match a word from the list than it will show that word.aaabaa
+            
             if re.match(input_string, word, re.IGNORECASE): 
                 self.ui.word_bank.addItem(word)
+
                 for i in range(self.ui.word_bank.count()):
                     if self.ui.word_bank.item(i).text() == word:
                         word_tip = self.ui.word_bank.item(i)
                         word_tip.setToolTip(definition)
 
-
+        #This means that the user has not typed anything that matches with what's in the list.
         if len(self.ui.word_bank) == 0:
             self.ui.word_bank.addItem("No results found.")
 
@@ -270,8 +305,11 @@ class MainWindow(QMainWindow):
 
         if self.isActiveWindow():
             pass
-            
-        elif not pressed and not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow() and not self.set_win.isActiveWindow():
+        
+        #These prevent the list from reloading when clicks occur and the main window isn't the list window.
+        #The 'pressed' makes it so that the user can type outside and then click the word for the text to speech to work
+        #and the list won't change. The list will change only on the release now if the windows are not active.
+        elif not pressed and not self.isActiveWindow() and not self.add_win.isActiveWindow() and not self.del_win.isActiveWindow() and not self.add_lar.isActiveWindow() and not self.set_win.isActiveWindow() and not self.def_win.isActiveWindow():
 
             if str(button) == "Button.left":
                 
@@ -341,14 +379,14 @@ class MainWindow(QMainWindow):
 
             if re.match(self.ui.search_bar.text(), word, re.IGNORECASE): #The re library's match starts from the beginning of the word and matches it, in this case, to what is in the search bar.
 
-
                 self.ui.word_bank.addItem(word)
 
+                #This is found several places in the code. It makes sure that when you hover over the word
+                #the correct definition shows up.
                 for i in range(self.ui.word_bank.count()):
                     if self.ui.word_bank.item(i).text() == word:
                         word_tip = self.ui.word_bank.item(i)
                         word_tip.setToolTip(definition)
-                # self.ui.word_bank.setToolTip(definition)
 
 
 
@@ -361,23 +399,13 @@ class MainWindow(QMainWindow):
 
 
 #*********************************************************************
-#Next two functions have to deal with the add button.
-
-    
-
-
-#TODO#
-
-# Add a way to verify that it is a valid words aka no numbers or special characters
-
-
+#Next two functions have to deal with the add buttons.
 
 # Called if the 'add' button was pressed
 
     def add_word(self):
 
         ##TODO#Not necessary but nice# 
-
         #Make it so that this closes if the main window closes.
 
 
@@ -400,18 +428,8 @@ class MainWindow(QMainWindow):
 
         self.add_win.close()
 
-#*********************************************************************
 
-
-
-
-#*********************************************************************
-
-#TODO#
-
-#Make it possible to add more than one thing at a time.
-
-
+# Called if the 'Add Multiple' button was pressed
     def add_many(self):
 
         self.add_many_ui = Ui_add_many_window()
@@ -426,6 +444,13 @@ class MainWindow(QMainWindow):
 
         self.add_win.close()
 
+#*********************************************************************
+
+
+
+
+#*********************************************************************
+#Function adds a single or many words to the list.
 
 
     def add_single_or_many(self):
@@ -447,6 +472,8 @@ class MainWindow(QMainWindow):
             for letter in self.add_ui.add_word_line.text():
                 user_text.append(letter)
 
+                #we really only want people to add one word if they are using the single add
+                #so if there is a space than we know that there is a new word and we want to stop.
                 if letter == " ":
                     break
 
@@ -454,9 +481,6 @@ class MainWindow(QMainWindow):
 
             for letter in self.add_many_ui.large_add_box.toPlainText():
                 user_text.append(letter)
-
-
-
 
         
 
@@ -477,8 +501,7 @@ class MainWindow(QMainWindow):
                     user_words.append(word)
                     word = ""
 
-        # print(len(user_words))
-        
+
 
         conn = sqlite3.connect('word_bank.db')
 
@@ -503,6 +526,8 @@ class MainWindow(QMainWindow):
 
             if not dup:
 
+                #We want the 'alphabet' to be at the top always. This makes that happen even if a user puts in a
+                #single letter
                 if len(add_words) == 1:
                         add_words += "  "
 
@@ -510,9 +535,7 @@ class MainWindow(QMainWindow):
                 cur.execute("INSERT INTO words_list VALUES (:word, :definition)",
                 {
                     'word': add_words,
-                    #the definition needs to be updated. This is done in separate threads because
-                    #the manner of getting the definitions is slow and would cause the user to experience
-                    #a great deal of lag.
+
                     'definition': "Go to options and click 'Add Definitions' to add definitions"
 
                 }
@@ -607,7 +630,6 @@ class MainWindow(QMainWindow):
         for word in current_words:
             word_list.append(word.text())
 
-        # self.ui.word_bank.takeItem(current_row)
 
         conn = sqlite3.connect('word_bank.db')
         cur = conn.cursor()
@@ -860,13 +882,6 @@ class MainWindow(QMainWindow):
 
 
 #*********************************************************************
-#TODO#
-#Change color and style. #NOTE# This may be done solely in the designer.
-
-#*********************************************************************
-
-
-#*********************************************************************
 #Loads words from the database. Used to set and reset the list that is
 #shown.
     def load_words(self):
@@ -916,12 +931,7 @@ class MainWindow(QMainWindow):
 
                         word_tip.setToolTip("Redo with internet")
 
-        #             if record[1] == "Reload with internet":
-        #                 thread = threading.Thread(target=self.word_addition_definition, args=(record[0],))
-        #                 def_word_thread_list.append(thread)
 
-        # for threads in def_word_thread_list:
-        #     threads.start()
 
         #this is where the settings are applied to the application
         self.config.read("settings.ini")
