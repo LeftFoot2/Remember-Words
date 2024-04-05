@@ -11,7 +11,7 @@ Repetition is a very important part of learning to spell and with Remember Words
 
 Here is a link of me downloading and setting up the app.
 
-<put link here to video on how to use it>
+https://youtu.be/6qqdXcMyXmM
 
 Above you will see a zip file that is called _download_file. Unsurprisingly that is the file you should download. In it you will find and exe file called remember_words. You can run the program form here if you would like or you can create shortcut and put it on your desktop, (I suggest the second, but you are free to do whatever works best for you.)
 
