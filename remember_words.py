@@ -20,8 +20,6 @@ import pyttsx3
 from PyDictionary import PyDictionary
 from configparser import ConfigParser
 
-import termcolor
-
 
 
 
